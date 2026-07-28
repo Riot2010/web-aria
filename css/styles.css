@@ -218,6 +218,16 @@ body {
   background-color: #007bff; /* Color de realce al pasar el mouse (puedes cambiarlo) */
   transform: translateY(-3px);
 }
+.footer-socials .fa-whatsapp{
+  color: #25D366;
+}
+.footer-socials .fa-instagram{
+  color: #e1306c;
+}
+.footer-socials .fa-facebook-f{
+  color: #2196f3;
+}
+
 
 /* Diseño Responsivo para dispositivos móviles */
 @media (max-width: 768px) {
