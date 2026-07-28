@@ -3,11 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Instruments Aria</title>
-  <link rel="stylesheet" href="../css/styles.css">
-  <!-- FontAwesome para los iconos de redes del footer -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
+<link rel="stylesheet" href="../css/styles.css">
+  <title>Instruments Aria</title>
+  <!-- FontAwesome para los iconos de redes del footer -->
 <body>
 
  <header class="navbar">
@@ -20,14 +19,19 @@
     <a href="#">Contacto</a>
     <a href="#">Categoría</a>
     <div class="search-box">
-  <input 
-    type="text" 
-    id="searchInput" 
-    placeholder="Buscar..." 
-    onkeydown="manejarBusquedaGlobal(event)"
-  >
-  <span class="search-icon" onclick="manejarBusquedaGlobal(event)">🔍</span>
-</div>
+      <input 
+        type="text" 
+        id="searchInput" 
+        placeholder="Buscar..." 
+        onkeydown="manejarBusquedaGlobal(event)"
+      >
+      <span class="search-icon" onclick="manejarBusquedaGlobal(event)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </span>
+    </div>
   </nav>
 </header>
 
@@ -107,7 +111,7 @@
     </div>
   </footer>
 
-  <!-- LÓGICA DE JAVASCRIPT PARA EL CARRUSEL -->
+  <!-- LÓGICA DE JAVASCRIPT PARA EL CARRUSEL Y LA BÚSQUEDA -->
   <script>
     let indiceImagen = 0;
 
@@ -124,6 +128,21 @@
 
     function cambiarImagen(n) {
         mostrarImagen(indiceImagen += n);
+    }
+
+    // Búsqueda global: se activa al presionar Enter en el input
+    // o al hacer clic en el ícono de la lupa.
+    function manejarBusquedaGlobal(event) {
+      const esEnter = event.type === 'keydown' && event.key === 'Enter';
+      const esClic = event.type === 'click';
+      if (!esEnter && !esClic) return;
+
+      const termino = document.getElementById('searchInput').value.trim();
+      if (!termino) return;
+
+      // Aquí conectas con tu lógica real de búsqueda:
+      // por ejemplo, redirigir a categorias.html con el término como parámetro.
+      window.location.href = 'categorias.html?buscar=' + encodeURIComponent(termino);
     }
   </script>
 
