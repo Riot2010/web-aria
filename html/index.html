@@ -19,7 +19,15 @@
     <a href="#">Inicio</a>
     <a href="#">Contacto</a>
     <a href="#">Categoría</a>
-    <span class="search-icon">🔍</span>
+    <div class="search-box">
+  <input 
+    type="text" 
+    id="searchInput" 
+    placeholder="Buscar..." 
+    onkeydown="manejarBusquedaGlobal(event)"
+  >
+  <span class="search-icon" onclick="manejarBusquedaGlobal(event)">🔍</span>
+</div>
   </nav>
 </header>
 

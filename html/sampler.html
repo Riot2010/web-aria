@@ -17,7 +17,15 @@
       <a href="index.html">Inicio</a>
       <a href="#">Contacto</a>
       <a href="categorias.html">Categoría</a>
-      <span class="search-icon">🔍</span>
+      <div class="search-box">
+  <input 
+    type="text" 
+    id="searchInput" 
+    placeholder="Buscar..." 
+    onkeydown="manejarBusquedaGlobal(event)"
+  >
+  <span class="search-icon" onclick="manejarBusquedaGlobal(event)">🔍</span>
+</div>
     </nav>
   </header>
 
@@ -69,7 +77,7 @@
       <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
     </div>
   </footer>
-
+<script src="../js/main.js"></script>
 </body>
 </html>
 
