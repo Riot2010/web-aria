@@ -24,8 +24,32 @@
   <main class="detalle-container">
     <div class="detalle-content">
 
+      <!-- === CARRUSEL DE DIFERENTES PERSPECTIVAS === -->
       <div class="detalle-imagen">
-        <img src="../assets/acordeon.png" alt="Acordeón">
+        <div class="carrusel-contenedor">
+          <div class="carrusel-track">
+            
+            <!-- Vista 1: Tu foto original del acordeón -->
+            <div class="carrusel-item active">
+              <img src="../assets/acordeon.png" alt="Acordeón Vista Principal">
+            </div>
+            
+            <!-- Vista 2: Perspectiva de detalle / teclado (Imagen de prueba) -->
+            <div class="carrusel-item">
+              <img src="https://images.unsplash.com/photo-1588053912110-6c9f6a7e0892?q=80&w=800" alt="Detalle de Teclas y Fuelles">
+            </div>
+            
+            <!-- Vista 3: Perspectiva lateral / ángulo (Imagen de prueba) -->
+            <div class="carrusel-item">
+              <img src="https://images.unsplash.com/photo-1511192336575-5a79af67a629?q=80&w=800" alt="Acordeón Perspectiva Angular">
+            </div>
+
+          </div>
+
+          <!-- Botones de navegación (Flechas) -->
+          <button class="carrusel-boton prev" onclick="cambiarImagen(-1)">&#10094;</button>
+          <button class="carrusel-boton next" onclick="cambiarImagen(1)">&#10095;</button>
+        </div>
       </div>
 
       <div class="detalle-info">
@@ -73,6 +97,26 @@
       <a href="#">🔵</a>
     </div>
   </footer>
+
+  <!-- LÓGICA DE NAVEGACIÓN DEL CARRUSEL -->
+  <script>
+    let indiceImagen = 0;
+
+    function mostrarImagen(n) {
+        const imagenes = document.querySelectorAll('.carrusel-item');
+        if (imagenes.length === 0) return;
+
+        if (n >= imagenes.length) { indiceImagen = 0; }
+        if (n < 0) { indiceImagen = imagenes.length - 1; }
+
+        imagenes.forEach(img => img.classList.remove('active'));
+        imagenes[indiceImagen].classList.add('active');
+    }
+
+    function cambiarImagen(n) {
+        mostrarImagen(indiceImagen += n);
+    }
+  </script>
 
 </body>
 </html>
