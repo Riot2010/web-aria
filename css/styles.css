@@ -13,11 +13,11 @@ body {
 .navbar {
   display: flex;
   justify-content: space-between; 
-  align-items: center;           
+  align-items: center;            
   background-color: #0d1117;       
   padding: 10px 30px;
   position: relative;
-  z-index: 10;          /**Este atributo sirve para****/          
+  z-index: 10;
 }
 
 .logo-img {
@@ -25,6 +25,7 @@ body {
   height: auto;  
   display: block;
 }
+
 .nav-links a {
   color: #ffffff;
   text-decoration: none;
@@ -55,7 +56,11 @@ body {
   background-image: url('../assets/img.inicio.jpg');
   background-size: cover;
   background-position: center;
+  position: relative;
+  padding: 40px 20px;
+  text-align: center;
 }
+
 .hero-section .overlay {
   position: absolute;
   top: 0;
@@ -110,8 +115,10 @@ body {
 }
 
 .btn-explorar {
+  display: inline-block;
   background-color: #d4a017;
   color: white;
+  text-decoration: none;
   border: none;
   padding: 12px 40px;
   font-size: 1.2rem;
@@ -229,71 +236,6 @@ body {
   display: grid;
   grid-template-columns: repeat(3, 1fr); 
   gap: 30px 20px;                         
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.producto-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  color: #ffffff;
-}
-
-.producto-card .img-container {
-  width: 100%;
-  height: 220px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 10px;
-}
-
-.producto-card .img-container img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-}
-
-.producto-card h3 {
-  font-size: 1rem;
-  font-weight: normal;
-  margin-bottom: 5px;
-  min-height: 38px; 
-}
-
-.producto-card .precio {
-  font-size: 0.95rem;
-  margin-bottom: 8px;
-}
-
-/* Botón Ver info */
-.btn-info {
-  background-color: #d4a017;
-  color: #ffffff;
-  text-decoration: none;
-  font-size: 0.85rem;
-  font-weight: bold;
-  padding: 6px 16px;
-  border-radius: 12px;
-  transition: background-color 0.3s ease;
-}
-
-.btn-info:hover {
-  background-color: #b8860b;
-}
-
-@media (max-width: 768px) {
-  .productos-grid-catalogo {
-    grid-template-columns: repeat(2, 1fr); 
-  }
-}
-
-.productos-grid-catalogo {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); 
-  gap: 30px 20px;                        
   max-width: 950px;
   margin: 40px auto;
   padding: 0 20px;
@@ -444,6 +386,10 @@ body {
 
 /* Adaptación a dispositivos móviles */
 @media (max-width: 768px) {
+  .productos-grid-catalogo {
+    grid-template-columns: repeat(2, 1fr); 
+  }
+
   .detalle-content {
     flex-direction: column;
     text-align: center;
@@ -452,4 +398,65 @@ body {
   .acciones-btns {
     justify-content: center;
   }
+}
+
+/* ===================================
+   ESTILOS PARA EL CARRUSEL DE IMÁGENES
+   =================================== */
+
+.carrusel-contenedor {
+  position: relative;
+  width: 100%;
+  max-width: 750px;
+  margin: 25px auto;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 2px solid #d4a017;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.carrusel-item {
+  display: none;
+  text-align: center;
+  padding: 15px;
+}
+
+.carrusel-item.active {
+  display: block;
+}
+
+.carrusel-item img {
+  width: 100%;
+  height: 350px;
+  object-fit: contain; /* Evita que los instrumentos se deformen */
+}
+
+/* Botones flotantes (Flechas) */
+.carrusel-boton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #d4a017;
+  border: 1px solid #d4a017;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 22px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.carrusel-boton:hover {
+  background-color: #d4a017;
+  color: #000000;
+}
+
+.carrusel-boton.prev {
+  left: 15px;
+}
+
+.carrusel-boton.next {
+  right: 15px;
 }

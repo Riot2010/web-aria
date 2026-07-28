@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Instruments Aria</title>
   <link rel="stylesheet" href="../css/styles.css">
+  <!-- FontAwesome para los iconos de redes del footer -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
@@ -35,13 +37,34 @@
       <h1>Bienvenido/a a Instruments Aria</h1>
       <p class="slogan">“La música comienza con el instrumento perfecto”</p>
 
+      <!-- === INICIO CARRUSEL === -->
+      <div class="carrusel-contenedor">
+        <div class="carrusel-track">
+          <!-- Reemplaza o agrega las fotos de tu carpeta assets aquí -->
+          <div class="carrusel-item active">
+            <img src="../assets/sax-alto.png" alt="Saxofón Alto">
+          </div>
+          <div class="carrusel-item">
+            <img src="../assets/keytar.png" alt="Keytar">
+          </div>
+          <div class="carrusel-item">
+            <img src="../assets/sampler.png" alt="Sampler">
+          </div>
+        </div>
+
+        <!-- Botones para cambiar imagen -->
+        <button class="carrusel-boton prev" onclick="cambiarImagen(-1)">&#10094;</button>
+        <button class="carrusel-boton next" onclick="cambiarImagen(1)">&#10095;</button>
+      </div>
+      <!-- === FIN CARRUSEL === -->
+
       <h2>Productos más vendidos :</h2>
 
       <div class="productos-grid">
-  <div class="card"><img src="../assets/sax-alto.png" alt="Saxofón"></div>
-  <div class="card"><img src="../assets/keytar.png" alt="Keytar"></div>
-  <div class="card"><img src="../assets/sampler.png" alt="Sampler"></div>
-</div>
+        <div class="card"><img src="../assets/sax-alto.png" alt="Saxofón"></div>
+        <div class="card"><img src="../assets/keytar.png" alt="Keytar"></div>
+        <div class="card"><img src="../assets/sampler.png" alt="Sampler"></div>
+      </div>
 
      <a href="categorias.html" class="btn-explorar">Explorar</a>
 
@@ -75,6 +98,26 @@
       <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
     </div>
   </footer>
+
+  <!-- LÓGICA DE JAVASCRIPT PARA EL CARRUSEL -->
+  <script>
+    let indiceImagen = 0;
+
+    function mostrarImagen(n) {
+        const imagenes = document.querySelectorAll('.carrusel-item');
+        if (imagenes.length === 0) return;
+
+        if (n >= imagenes.length) { indiceImagen = 0; }
+        if (n < 0) { indiceImagen = imagenes.length - 1; }
+
+        imagenes.forEach(img => img.classList.remove('active'));
+        imagenes[indiceImagen].classList.add('active');
+    }
+
+    function cambiarImagen(n) {
+        mostrarImagen(indiceImagen += n);
+    }
+  </script>
 
 </body>
 </html>
