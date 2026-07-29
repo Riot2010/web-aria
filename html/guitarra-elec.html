@@ -53,57 +53,50 @@
     </div>
     <nav class="nav-links">
       <a href="index.html">Inicio</a>
-      <a href="#">Contacto</a>
+      <a href="contacto.html">Contacto</a>
       <a href="categorias.html">Categoría</a>
-      <span class="search-icon">🔍</span>
+      <div class="search-box">
+        <input 
+          type="text" 
+          id="searchInput" 
+          placeholder="Buscar..." 
+          onkeydown="manejarBusquedaGlobal(event)"
+        >
+        <span class="search-icon" onclick="manejarBusquedaGlobal(event)">🔍</span>
+      </div>
     </nav>
   </header>
 
   <main class="detalle-container">
     <div class="detalle-content">
       
-      <!-- CARRUSEL DE IMÁGENES -->
       <div class="detalle-imagen">
-<<<<<<< HEAD
-        <img src="../assets/guitarra-elec.png" alt="Guitarra electrica">
-=======
         <div class="carrusel-contenedor">
           <div class="carrusel-track">
             
-            <!-- Foto 1 (Tu imagen original local) -->
             <div class="carrusel-item active">
               <img src="../assets/guitarra-elec.png" alt="Guitarra Eléctrica Vista Principal">
             </div>
             
-            <!-- Foto 2 (Complementaria de Internet) -->
             <div class="carrusel-item">
               <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500" alt="Guitarra Eléctrica Perspectiva 1">
             </div>
 
-            <!-- Foto 3 (Complementaria de Internet) -->
             <div class="carrusel-item">
               <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500" alt="Guitarra Eléctrica Perspectiva 2">
             </div>
 
           </div>
 
-          <!-- Botones de navegación del carrusel -->
           <button class="carrusel-boton prev" onclick="cambiarImagen(-1)">&#10094;</button>
           <button class="carrusel-boton next" onclick="cambiarImagen(1)">&#10095;</button>
         </div>
->>>>>>> 225574a9cd1a565809f3ddc32127c07bf18271fb
       </div>
 
-      <!-- INFORMACIÓN DEL INSTRUMENTO -->
       <div class="detalle-info">
         <div class="precio-box">
-<<<<<<< HEAD
-          <h2>Guitarra electrica</h2>
-          <p>Precio:480$</p>
-=======
           <h2>Guitarra Eléctrica</h2>
           <p>Precio: $480</p>
->>>>>>> 225574a9cd1a565809f3ddc32127c07bf18271fb
         </div>
 
         <p class="descripcion-texto">
@@ -120,9 +113,9 @@
     </div>
   </main>
 
-    <footer class="footer">
+  <footer class="footer">
     <div class="footer-col">
-      <p>ARIA INSTRUMENTS</p>
+      <p><strong>ARIA INSTRUMENTS</strong></p>
       <p>CONTÁCTANOS:<br>+503 6452-6024</p>
       <p>© 2026 ARIA INSTRUMENTS</p>
     </div>
@@ -146,7 +139,6 @@
 
   <script src="../js/main.js"></script>
 
-  <!-- SCRIPT PARA FUNCIONAMIENTO DEL CARRUSEL -->
   <script>
     let indiceImagen = 0;
 
