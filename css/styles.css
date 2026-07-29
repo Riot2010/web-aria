@@ -270,6 +270,17 @@ body {
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
+.footer-socials .fa-whatsapp{
+  color: #25D366;
+}
+
+.footer-socials .fa-facebook-f{
+  color: #2196f3;
+}
+
+.footer-socials .fa-instagram{
+  color: #e1306c;
+}
 .footer-socials a:hover {
   background-color: #007bff; /* Color de realce al pasar el mouse (puedes cambiarlo) */
   transform: translateY(-3px);
