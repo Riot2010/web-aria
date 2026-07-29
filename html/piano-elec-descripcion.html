@@ -3,80 +3,168 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <title>Piano Eléctrico - Aria Instruments</title>
   <link rel="stylesheet" href="../css/styles.css">
+
+  <style>
+    /* Estilos directos de respaldo para el carrusel */
+    .carrusel-contenedor {
+      position: relative;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    .carrusel-item {
+      display: none;
+      text-align: center;
+    }
+    .carrusel-item.active {
+      display: block;
+    }
+    .carrusel-item img {
+      width: 100%;
+      height: auto;
+      max-height: 300px;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+    .carrusel-boton {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+      border-radius: 50%;
+      font-size: 18px;
+      z-index: 10;
+    }
+    .carrusel-boton.prev { left: 10px; }
+    .carrusel-boton.next { right: 10px; }
+  </style>
 </head>
 <body>
 
-<header class="navbar">
-  <div class="logo">
-    <img src="../assets/logo-tienda.png" alt="Aria Logo" class="logo-img">
-  </div>
-  <nav class="nav-links">
-    <a href="index.html">Inicio</a>
-    <a href="contacto.html">Contacto</a>
-    <a href="categorias.html">Categoría</a>
-    <div class="search-box">
-  <input 
-    type="text" 
-    id="searchInput" 
-    placeholder="Buscar..." 
-    onkeydown="manejarBusquedaGlobal(event)"
-  >
-  <span class="search-icon" onclick="manejarBusquedaGlobal(event)">🔍</span>
-</div>
-  </nav>
-</header>
-
-<main class="detalle-container">
-  <div class="detalle-content">
-
-    <div class="detalle-imagen">
-      <img src="../assets/piano-elec.png" alt="Piano Eléctrico">
+  <header class="navbar">
+    <div class="logo">
+      <img src="../assets/logo-tienda.png" alt="Aria Logo" class="logo-img">
     </div>
+    <nav class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="contacto.html">Contacto</a>
+      <a href="categorias.html">Categoría</a>
+      <div class="search-box">
+        <input 
+          type="text" 
+          id="searchInput" 
+          placeholder="Buscar..." 
+          onkeydown="manejarBusquedaGlobal(event)"
+        >
+        <span class="search-icon" onclick="manejarBusquedaGlobal(event)">🔍</span>
+      </div>
+    </nav>
+  </header>
 
-    <div class="detalle-info">
-      <p class="descripcion-texto">
-        Piano eléctrico con sonido de alta fidelidad y múltiples funciones digitales. Ideal para estudiantes y músicos profesionales gracias a su teclado sensible y gran variedad de tonos.
-      </p>
+  <main class="detalle-container">
+    <div class="detalle-content">
 
-      <div class="precio-box">
-        <h2>Piano Eléctrico</h2>
-        <p>Precio: 480$</p>
+      <!-- CARRUSEL DE IMÁGENES -->
+      <div class="detalle-imagen">
+        <div class="carrusel-contenedor">
+          <div class="carrusel-track">
+            
+            <!-- Foto 1 (Tu imagen original local) -->
+            <div class="carrusel-item active">
+              <img src="../assets/piano-elec.png" alt="Piano Eléctrico Vista Principal">
+            </div>
+            
+            <!-- Foto 2 (Complementaria de Internet) -->
+            <div class="carrusel-item">
+              <img src="https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=500" alt="Piano Eléctrico Perspectiva 1">
+            </div>
+
+            <!-- Foto 3 (Complementaria de Internet) -->
+            <div class="carrusel-item">
+              <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500" alt="Piano Eléctrico Perspectiva 2">
+            </div>
+
+          </div>
+
+          <!-- Botones de navegación del carrusel -->
+          <button class="carrusel-boton prev" onclick="cambiarImagen(-1)">&#10094;</button>
+          <button class="carrusel-boton next" onclick="cambiarImagen(1)">&#10095;</button>
+        </div>
       </div>
 
-      <div class="acciones-btns">
-        <a href="#" class="btn-comprar">Comprar</a>
-        <a href="teclado.html" class="btn-regresar">Regresar</a>
+      <!-- INFORMACIÓN DEL INSTRUMENTO -->
+      <div class="detalle-info">
+        <div class="precio-box">
+          <h2>Piano Eléctrico</h2>
+          <p>Precio: $480</p>
+        </div>
+
+        <p class="descripcion-texto">
+          Piano eléctrico con sonido de alta fidelidad y múltiples funciones digitales. Ideal para estudiantes y músicos profesionales gracias a su teclado sensible y gran variedad de tonos.
+        </p>
+
+        <div class="acciones-btns">
+          <a href="#" class="btn-comprar">Comprar</a>
+          <a href="teclado.html" class="btn-regresar">Regresar</a>
+        </div>
       </div>
+
     </div>
+  </main>
 
-  </div>
-</main>
-
-<footer class="footer">
-  <div class="footer-col">
-    <p><strong>ARIA INSTRUMENTS</strong></p>
-    <p>CONTÁCTANOS:<br>+503 6452-6024</p>
-    <p>© 2026 ARIA INSTRUMENTS</p>
-  </div>
-  <div class="footer-col">
-    <a href="#">TÉRMINOS Y CONDICIONES POLÍTICAS GENERALES DEVOLUCIÓN Y CAMBIOS - POLÍTICA DE PRIVACIDAD</a><br><br>
-    <a href="#">TÉRMINOS Y CONDICIONES DE PROMOCIONES</a>
-  </div>
-  <div class="footer-col">
-    <p><strong>PÁGINAS:</strong></p>
-    <p>INICIO :</p>
-    <p>CONTACTO:</p>
-    <p>CATEGORÍA:</p>
-  </div>
-  <div class="footer-socials">
-   <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+  <footer class="footer">
+    <div class="footer-col">
+      <p><strong>ARIA INSTRUMENTS</strong></p>
+      <p>CONTÁCTANOS:<br>+503 6452-6024</p>
+      <p>© 2026 ARIA INSTRUMENTS</p>
+    </div>
+    <div class="footer-col">
+      <a href="#">TÉRMINOS Y CONDICIONES POLÍTICAS GENERALES DEVOLUCIÓN Y CAMBIOS - POLÍTICA DE PRIVACIDAD</a><br><br>
+      <a href="#">TÉRMINOS Y CONDICIONES DE PROMOCIONES</a>
+    </div>
+    <div class="footer-col">
+      <p><strong>PÁGINAS:</strong></p>
+      <p>INICIO :</p>
+      <p>CONTACTO:</p>
+      <p>CATEGORÍA:</p>
+    </div>
+    <div class="footer-socials">
+      <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
       <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
       <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-  </div>
-</footer>
-<script src="../js/main.js"></script>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+
+  <!-- SCRIPT PARA FUNCIONAMIENTO DEL CARRUSEL -->
+  <script>
+    let indiceImagen = 0;
+
+    function mostrarImagen(n) {
+      const imagenes = document.querySelectorAll('.carrusel-item');
+      if (imagenes.length === 0) return;
+
+      if (n >= imagenes.length) { indiceImagen = 0; }
+      if (n < 0) { indiceImagen = imagenes.length - 1; }
+
+      imagenes.forEach(img => img.classList.remove('active'));
+      imagenes[indiceImagen].classList.add('active');
+    }
+
+    function cambiarImagen(n) {
+      mostrarImagen(indiceImagen += n);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      mostrarImagen(0);
+    });
+  </script>
 </body>
 </html>
