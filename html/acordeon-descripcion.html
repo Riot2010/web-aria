@@ -3,9 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <title>Acordeón - Aria Instruments</title>
   <link rel="stylesheet" href="../css/styles.css">
+
+  <style>
+    /* Estilos directos del carrusel */
+    .carrusel-contenedor {
+      position: relative;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    .carrusel-item {
+      display: none;
+      text-align: center;
+    }
+    .carrusel-item.active {
+      display: block;
+    }
+    .carrusel-item img {
+      width: 100%;
+      height: auto;
+      max-height: 300px;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+    .carrusel-boton {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+      border-radius: 50%;
+      font-size: 18px;
+      z-index: 10;
+    }
+    .carrusel-boton.prev { left: 10px; }
+    .carrusel-boton.next { right: 10px; }
+  </style>
 </head>
 <body>
 
@@ -24,43 +61,43 @@
   <main class="detalle-container">
     <div class="detalle-content">
 
-      <!-- === CARRUSEL DE DIFERENTES PERSPECTIVAS === -->
+      <!-- CARRUSEL DE IMÁGENES CORREGIDO -->
       <div class="detalle-imagen">
         <div class="carrusel-contenedor">
           <div class="carrusel-track">
             
-            <!-- Vista 1: Tu foto original del acordeón -->
+            <!-- Foto 1 -->
             <div class="carrusel-item active">
-              <img src="../assets/acordeon.png" alt="Acordeón Vista Principal">
+              <img src="../assets/acordeon.png" alt="Acordeón Principal">
             </div>
             
-            <!-- Vista 2: Perspectiva de detalle / teclado (Imagen de prueba) -->
+            <!-- Foto 2 -->
             <div class="carrusel-item">
-              <img src="https://images.unsplash.com/photo-1588053912110-6c9f6a7e0892?q=80&w=800" alt="Detalle de Teclas y Fuelles">
+              <img src="../assets/acordeon-perspectiva-1.png" alt="Acordeón Perspectiva 1">
             </div>
-            
-            <!-- Vista 3: Perspectiva lateral / ángulo (Imagen de prueba) -->
+
+            <!-- Foto 3 -->
             <div class="carrusel-item">
-              <img src="https://images.unsplash.com/photo-1511192336575-5a79af67a629?q=80&w=800" alt="Acordeón Perspectiva Angular">
+              <img src="../assets/acordeon-perspectiva-2.png" alt="Acordeón Perspectiva 2">
             </div>
 
           </div>
 
-          <!-- Botones de navegación (Flechas) -->
+          <!-- Botones de navegación -->
           <button class="carrusel-boton prev" onclick="cambiarImagen(-1)">&#10094;</button>
           <button class="carrusel-boton next" onclick="cambiarImagen(1)">&#10095;</button>
         </div>
       </div>
 
       <div class="detalle-info">
+        <div class="precio-box">
+          <h2>Acordeón</h2>
+          <p>Precio: $280</p>
+        </div>
+
         <p class="descripcion-texto">
           El acordeón ofrece un sonido potente y expresivo, ideal para música folclórica, norteña, vallenato y muchos otros estilos. Cuenta con teclas y botones de alta precisión para una excelente interpretación.
         </p>
-
-        <div class="precio-box">
-          <h2>Acordeón</h2>
-          <p>Precio: 280$</p>
-        </div>
 
         <div class="acciones-btns">
           <a href="#" class="btn-comprar">Comprar</a>
@@ -77,45 +114,30 @@
       <p>CONTÁCTANOS:<br>+503 6452-6024</p>
       <p>© 2026 ARIA INSTRUMENTS</p>
     </div>
-
-    <div class="footer-col">
-      <a href="#">TÉRMINOS Y CONDICIONES POLÍTICAS GENERALES DEVOLUCIÓN Y CAMBIOS - POLÍTICA DE PRIVACIDAD</a>
-      <br><br>
-      <a href="#">TÉRMINOS Y CONDICIONES DE PROMOCIONES</a>
-    </div>
-
-    <div class="footer-col">
-      <p><strong>PÁGINAS:</strong></p>
-      <p>INICIO :</p>
-      <p>CONTACTO:</p>
-      <p>CATEGORÍA:</p>
-    </div>
-
-    <div class="footer-socials">
-      <a href="#">🟢</a>
-      <a href="#">📸</a>
-      <a href="#">🔵</a>
-    </div>
   </footer>
 
-  <!-- LÓGICA DE NAVEGACIÓN DEL CARRUSEL -->
+  <!-- SCRIPT DE NAVEGACIÓN DEL CARRUSEL -->
   <script>
     let indiceImagen = 0;
 
     function mostrarImagen(n) {
-        const imagenes = document.querySelectorAll('.carrusel-item');
-        if (imagenes.length === 0) return;
+      const imagenes = document.querySelectorAll('.carrusel-item');
+      if (imagenes.length === 0) return;
 
-        if (n >= imagenes.length) { indiceImagen = 0; }
-        if (n < 0) { indiceImagen = imagenes.length - 1; }
+      if (n >= imagenes.length) { indiceImagen = 0; }
+      if (n < 0) { indiceImagen = imagenes.length - 1; }
 
-        imagenes.forEach(img => img.classList.remove('active'));
-        imagenes[indiceImagen].classList.add('active');
+      imagenes.forEach(img => img.classList.remove('active'));
+      imagenes[indiceImagen].classList.add('active');
     }
 
     function cambiarImagen(n) {
-        mostrarImagen(indiceImagen += n);
+      mostrarImagen(indiceImagen += n);
     }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      mostrarImagen(0);
+    });
   </script>
 
 </body>
