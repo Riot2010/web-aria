@@ -3,9 +3,47 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <title> Caja ritmo - Instruments Aria</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>Caja de Ritmos - Aria Instruments</title>
   <link rel="stylesheet" href="../css/styles.css">
+
+  <style>
+    /* Estilos directos de respaldo para el carrusel */
+    .carrusel-contenedor {
+      position: relative;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    .carrusel-item {
+      display: none;
+      text-align: center;
+    }
+    .carrusel-item.active {
+      display: block;
+    }
+    .carrusel-item img {
+      width: 100%;
+      height: auto;
+      max-height: 300px;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+    .carrusel-boton {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+      border-radius: 50%;
+      font-size: 18px;
+      z-index: 10;
+    }
+    .carrusel-boton.prev { left: 10px; }
+    .carrusel-boton.next { right: 10px; }
+  </style>
 </head>
 <body>
 
@@ -24,18 +62,45 @@
   <main class="detalle-container">
     <div class="detalle-content">
       
+      <!-- CARRUSEL DE IMÁGENES -->
       <div class="detalle-imagen">
-        <img src="../assets/caja-ritmos.png" alt="Armonio">
+        <div class="carrusel-contenedor">
+          <div class="carrusel-track">
+            
+            <!-- Foto 1 (Tu imagen original local) -->
+            <div class="carrusel-item active">
+              <img src="../assets/caja-ritmos.png" alt="Caja de Ritmos Vista Principal">
+            </div>
+            
+            <!-- Foto 2 (Complementaria de Internet) -->
+            <div class="carrusel-item">
+              <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500" alt="Caja de Ritmos Perspectiva 1">
+            </div>
+
+            <!-- Foto 3 (Complementaria de Internet) -->
+            <div class="carrusel-item">
+              <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500" alt="Caja de Ritmos Perspectiva 2">
+            </div>
+
+          </div>
+
+          <!-- Botones de navegación del carrusel -->
+          <button class="carrusel-boton prev" onclick="cambiarImagen(-1)">&#10094;</button>
+          <button class="carrusel-boton next" onclick="cambiarImagen(1)">&#10095;</button>
+        </div>
       </div>
 
+      <!-- INFORMACIÓN DEL INSTRUMENTO -->
       <div class="detalle-info">
-        <p class="descripcion-texto">La caja de ritmos es un instrumento electrónico diseñado para crear patrones rítmicos y sonidos de batería.
-           Es muy utilizada en la producción de música electrónica, hip-hop y pop.</p>
-
         <div class="precio-box">
-          <h2>Acordeon</h2>
-          <p>Precio:100$</p>
+          <h2>Caja de Ritmos</h2>
+          <p>Precio: $100</p>
         </div>
+
+        <p class="descripcion-texto">
+          La caja de ritmos es un instrumento electrónico diseñado para crear patrones rítmicos y sonidos de batería.
+          Es muy utilizada en la producción de música electrónica, hip-hop y pop.
+        </p>
 
         <div class="acciones-btns">
           <a href="#" class="btn-comprar">Comprar</a>
@@ -69,6 +134,31 @@
       <a href="#">🔵</a>
     </div>
   </footer>
-<script src="../js/main.js"></script>
+
+  <script src="../js/main.js"></script>
+
+  <!-- SCRIPT PARA FUNCIONAMIENTO DEL CARRUSEL -->
+  <script>
+    let indiceImagen = 0;
+
+    function mostrarImagen(n) {
+      const imagenes = document.querySelectorAll('.carrusel-item');
+      if (imagenes.length === 0) return;
+
+      if (n >= imagenes.length) { indiceImagen = 0; }
+      if (n < 0) { indiceImagen = imagenes.length - 1; }
+
+      imagenes.forEach(img => img.classList.remove('active'));
+      imagenes[indiceImagen].classList.add('active');
+    }
+
+    function cambiarImagen(n) {
+      mostrarImagen(indiceImagen += n);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      mostrarImagen(0);
+    });
+  </script>
 </body>
 </html>
