@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <title>Contacto - Instruments Aria</title>
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="logo">
+      <img src="../assets/logo-tienda.png" alt="Aria Logo" class="logo-img">
+    </div>
+
+    <nav class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="contacto.html">Contacto</a>
+      <a href="categorias.html">Categoría</a>
+      <div class="search-box">
+        <input 
+          type="text" 
+          id="searchInput" 
+          placeholder="Buscar..." 
+          onkeydown="manejarBusquedaGlobal(event)"
+        >
+        <span class="search-icon" onclick="manejarBusquedaGlobal(event)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </span>
+      </div>
+    </nav>
+  </header>
+
+  <main class="contacto-container">
+    <form class="form-contacto" id="formContacto">
+      <h1>Contáctanos</h1>
+      <p class="subtitulo-form">Ingresa tu información de contacto</p>
+
+      <label for="nombre">Nombre</label>
+      <input type="text" id="nombre" name="nombre" placeholder="Tu nombre completo" required>
+
+      <label for="correo">Correo electrónico</label>
+      <input type="email" id="correo" name="correo" placeholder="tucorreo@ejemplo.com" required>
+
+      <label for="telefono">Teléfono</label>
+      <input type="tel" id="telefono" name="telefono" placeholder="+503 0000 0000" required>
+
+      <label for="comentario">Comentario</label>
+      <textarea id="comentario" name="comentario" rows="4" placeholder="Escribe tu mensaje..." required></textarea>
+
+      <button type="submit" class="btn-enviar">Enviar</button>
+    </form>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-col">
+      <p><strong>ARIA INSTRUMENTS</strong></p>
+      <p>CONTÁCTANOS:<br>+503 6452-6024</p>
+      <p>© 2026 ARIA INSTRUMENTS</p>
+    </div>
+    <div class="footer-col">
+      <a href="#">TÉRMINOS Y CONDICIONES POLÍTICAS GENERALES DEVOLUCIÓN Y CAMBIOS - POLÍTICA DE PRIVACIDAD</a>
+      <br><br>
+      <a href="#">TÉRMINOS Y CONDICIONES DE PROMOCIONES</a>
+    </div>
+    <div class="footer-col">
+      <p><strong>PÁGINAS:</strong></p>
+      <p>INICIO :</p>
+      <p>CONTACTO:</p>
+      <p>CATEGORÍA:</p>
+    </div>
+    <div class="footer-socials">
+      <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script>
+    function manejarBusquedaGlobal(event) {
+      const esEnter = event.type === 'keydown' && event.key === 'Enter';
+      const esClic = event.type === 'click';
+      if (!esEnter && !esClic) return;
+
+      const termino = document.getElementById('searchInput').value.trim();
+      if (!termino) return;
+
+      window.location.href = 'categorias.html?buscar=' + encodeURIComponent(termino);
+    }
+
+    document.getElementById('formContacto').addEventListener('submit', function(e){
+      e.preventDefault();
+      // Aquí conectas con tu lógica real de envío:
+      // fetch a tu backend, EmailJS, Formspree, etc.
+      alert('¡Gracias! Tu mensaje fue enviado.');
+      this.reset();
+    });
+  </script>
+</body>
+</html>
