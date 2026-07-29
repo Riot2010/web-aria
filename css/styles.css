@@ -204,8 +204,8 @@ body {
 
 /* Estilos generales del Footer */
 .footer {
-  background-color: #1a1a1a; /* Fondo oscuro elegante */
-  color: #ffffff; /* Texto blanco */
+  background-color: #1a1a1a;
+  color: #ffffff;
   padding: 15px 10px;
   display: flex;
   flex-wrap: wrap;
@@ -216,7 +216,6 @@ body {
   font-size: 14px;
 }
 
-/* Estilos para cada columna */
 .footer-col {
   flex: 1;
   min-width: 200px;
@@ -225,7 +224,6 @@ body {
   gap: 12px;
 }
 
-/* Estilos de los textos dentro de las columnas */
 .footer-col p {
   margin: 0;
   line-height: 1.5;
@@ -236,7 +234,6 @@ body {
   color: #ffffff;
 }
 
-/* Estilos para los enlaces */
 .footer-col a {
   color: #cccccc;
   text-decoration: none;
@@ -249,7 +246,6 @@ body {
   text-decoration: underline;
 }
 
-/* Estilos para la sección de redes sociales */
 .footer-socials {
   display: flex;
   gap: 15px;
@@ -270,24 +266,15 @@ body {
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.footer-socials .fa-whatsapp{
-  color: #25D366;
-}
-
-.footer-socials .fa-facebook-f{
-  color: #2196f3;
-}
-
-.footer-socials .fa-instagram{
-  color: #e1306c;
-}
+.footer-socials .fa-whatsapp { color: #25D366; }
+.footer-socials .fa-facebook-f { color: #2196f3; }
+.footer-socials .fa-instagram { color: #e1306c; }
 
 .footer-socials a:hover {
-  background-color: #007bff; /* Color de realce al pasar el mouse (puedes cambiarlo) */
+  background-color: #007bff;
   transform: translateY(-3px);
 }
 
-/* Diseño Responsivo para dispositivos móviles */
 @media (max-width: 768px) {
   .footer {
     flex-direction: column;
@@ -458,11 +445,11 @@ body {
   width: 100%;
 }
 
-/* Columna Izquierda - Imagen */
 .detalle-imagen {
   flex: 1;
   display: flex;
   justify-content: center;
+  width: 100%;
 }
 
 .detalle-imagen img {
@@ -471,7 +458,6 @@ body {
   object-fit: contain;
 }
 
-/* Columna Derecha - Información */
 .detalle-info {
   flex: 1.2;
   display: flex;
@@ -486,7 +472,6 @@ body {
   color: #e0e0e0;
 }
 
-/* Recuadro de Precio con Borde Gris/Blanco */
 .precio-box {
   border: 2px solid #8c8c8c;
   border-radius: 6px;
@@ -505,7 +490,6 @@ body {
   font-weight: normal;
 }
 
-/* Botones Comprar y Regresar */
 .acciones-btns {
   display: flex;
   gap: 20px;
@@ -528,7 +512,6 @@ body {
   background-color: #b8860b;
 }
 
-/* Adaptación a dispositivos móviles */
 @media (max-width: 768px) {
   .productos-grid-catalogo {
     grid-template-columns: repeat(2, 1fr); 
@@ -568,8 +551,8 @@ body {
 .carrusel-contenedor {
   position: relative;
   width: 100%;
-  max-width: 750px;
-  margin: 25px auto;
+  max-width: 420px;
+  margin: 0 auto;
   overflow: hidden;
   border-radius: 12px;
   border: 2px solid #d4a017;
@@ -589,11 +572,10 @@ body {
 
 .carrusel-item img {
   width: 100%;
-  height: 350px;
-  object-fit: contain; /* Evita que los instrumentos se deformen */
+  height: 300px;
+  object-fit: contain;
 }
 
-/* Botones flotantes (Flechas) */
 .carrusel-boton {
   position: absolute;
   top: 50%;
@@ -615,11 +597,11 @@ body {
 }
 
 .carrusel-boton.prev {
-  left: 15px;
+  left: 10px;
 }
 
 .carrusel-boton.next {
-  right: 15px;
+  right: 10px;
 }
 
 /* ===================================
@@ -722,4 +704,16 @@ body {
   .form-contacto {
     max-width: 100%;
   }
+}
+
+/* ===================================
+   OPTIMIZACIONES PARA IMÁGENES CON FONDO
+   =================================== */
+
+/* Si utilizas imágenes con fondo blanco sólido y quieres disimularlas en fondo oscuro */
+.carrusel-item img.con-fondo,
+.img-container img.con-fondo {
+  mix-blend-mode: multiply;
+  background-color: #ffffff;
+  border-radius: 8px;
 }
