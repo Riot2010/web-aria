@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <title>Carrito - Instruments Aria</title>
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="logo">
+      <img src="../assets/logo-tienda.png" alt="Aria Logo" class="logo-img">
+    </div>
+
+    <nav class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="contacto.html">Contacto</a>
+      <a href="categorias.html">Categoría</a>
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Buscar..." onkeydown="manejarBusquedaGlobal(event)">
+        <span class="search-icon" onclick="manejarBusquedaGlobal(event)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </span>
+      </div>
+    </nav>
+  </header>
+
+  <main class="compra-container">
+    <h1 class="titulo-seccion">Tu carrito</h1>
+
+    <div class="carrito-wrapper">
+      <section class="resumen-pedido" id="listaCarrito">
+        <!-- Los productos se insertan aquí con JavaScript -->
+      </section>
+
+      <p class="carrito-vacio-msg" id="carritoVacioMsg" style="display:none;">
+        Tu carrito está vacío. <a href="categorias.html">Explora nuestras categorías</a>.
+      </p>
+
+      <div class="resumen-totales" id="totalesCarrito"></div>
+
+      <a href="compra.html" class="btn-confirmar-compra btn-ir-pagar" id="btnIrPagar">Proceder al pago</a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-col">
+      <p><strong>ARIA INSTRUMENTS</strong></p>
+      <p>CONTÁCTANOS:<br>+503 6452-6024</p>
+      <p>© 2026 ARIA INSTRUMENTS</p>
+    </div>
+    <div class="footer-col">
+      <a href="#">TÉRMINOS Y CONDICIONES POLÍTICAS GENERALES DEVOLUCIÓN Y CAMBIOS - POLÍTICA DE PRIVACIDAD</a>
+      <br><br>
+      <a href="#">TÉRMINOS Y CONDICIONES DE PROMOCIONES</a>
+    </div>
+    <div class="footer-col">
+      <p><strong>PÁGINAS:</strong></p>
+      <p>INICIO :</p>
+      <p>CONTACTO:</p>
+      <p>CATEGORÍA:</p>
+    </div>
+    <div class="footer-socials">
+      <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+    </div>
+  </footer>
+
+  <script src="../js/carrito.js"></script>
+  <script src="../js/main.js"></script>
+  <script>
+    function manejarBusquedaGlobal(event) {
+      const esEnter = event.type === 'keydown' && event.key === 'Enter';
+      const esClic = event.type === 'click';
+      if (!esEnter && !esClic) return;
+      const termino = document.getElementById('searchInput').value.trim();
+      if (!termino) return;
+      window.location.href = 'categorias.html?buscar=' + encodeURIComponent(termino);
+    }
+
+    function renderCarrito() {
+      const carrito = obtenerCarrito();
+      const contenedor = document.getElementById('listaCarrito');
+      const mensajeVacio = document.getElementById('carritoVacioMsg');
+      const btnPagar = document.getElementById('btnIrPagar');
+
+      contenedor.innerHTML = '';
+
+      if (carrito.length === 0) {
+        mensajeVacio.style.display = 'block';
+        contenedor.style.display = 'none';
+        btnPagar.style.display = 'none';
+        document.getElementById('totalesCarrito').innerHTML = '';
+        return;
+      }
+
+      mensajeVacio.style.display = 'none';
+      contenedor.style.display = 'block';
+      btnPagar.style.display = 'block';
+
+      carrito.forEach(p => {
+        const linea = document.createElement('div');
+        linea.className = 'producto-linea';
+        linea.innerHTML = `
+          <img src="${p.imagen}" alt="${p.nombre}">
+          <div class="producto-linea-info">
+            <p class="producto-nombre">${p.nombre}</p>
+            <div class="cantidad-selector">
+              <button type="button" class="btn-cantidad" data-id="${p.id}" data-delta="-1">−</button>
+              <span class="cantidad-valor">${p.cantidad}</span>
+              <button type="button" class="btn-cantidad" data-id="${p.id}" data-delta="1">+</button>
+            </div>
+          </div>
+          <p class="producto-subtotal">$${(p.precio * p.cantidad).toFixed(2)}</p>
+          <button type="button" class="btn-eliminar-producto" data-id="${p.id}" aria-label="Eliminar">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        `;
+        contenedor.appendChild(linea);
+      });
+
+      const totales = calcularTotalesCarrito();
+      document.getElementById('totalesCarrito').innerHTML = `
+        <div class="linea-total"><span>Subtotal</span><span>$${totales.subtotal.toFixed(2)}</span></div>
+        <div class="linea-total"><span>Envío</span><span>$${totales.envio.toFixed(2)}</span></div>
+        <div class="linea-total total-final"><span>Total</span><span>$${totales.total.toFixed(2)}</span></div>
+      `;
+    }
+
+    document.getElementById('listaCarrito').addEventListener('click', (e) => {
+      const btnCantidad = e.target.closest('.btn-cantidad');
+      const btnEliminar = e.target.closest('.btn-eliminar-producto');
+
+      if (btnCantidad) {
+        cambiarCantidadCarrito(btnCantidad.dataset.id, parseInt(btnCantidad.dataset.delta, 10));
+        renderCarrito();
+      }
+      if (btnEliminar) {
+        eliminarDelCarrito(btnEliminar.dataset.id);
+        renderCarrito();
+      }
+    });
+
+    renderCarrito();
+  </script>
+</body>
+</html>

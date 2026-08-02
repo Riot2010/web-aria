@@ -55,16 +55,20 @@
       <a href="index.html">Inicio</a>
       <a href="contacto.html">Contacto</a>
       <a href="categorias.html">Categoría</a>
-      <div class="search-box">
-        <input 
-          type="text" 
-          id="searchInput" 
-          placeholder="Buscar..." 
-          onkeydown="manejarBusquedaGlobal(event)"
-        >
-        <span class="search-icon" onclick="manejarBusquedaGlobal(event)">🔍</span>
-      </div>
-    </nav>
+       <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Buscar..." onkeydown="manejarBusquedaGlobal(event)">
+      <span class="search-icon" onclick="manejarBusquedaGlobal(event)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </span>
+    </div>
+    <a href="carrito.html" class="carrito-icono" aria-label="Ver carrito">
+      <i class="fa-solid fa-cart-shopping"></i>
+      <span id="contadorCarrito" class="carrito-contador">0</span>
+    </a>
+  </nav>
   </header>
 
   <main class="detalle-container">
@@ -110,7 +114,7 @@
         </p>
 
         <div class="acciones-btns">
-          <a href="#" class="btn-comprar">Comprar</a>
+           <a href="compra.html" class="btn-comprar">Comprar</a>
           <a href="viento.html" class="btn-regresar">Regresar</a>
         </div>
       </div>

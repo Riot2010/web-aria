@@ -4,43 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <title>Armónica - Aria Instruments</title>
+  <title>Melódica - Aria Instruments</title>
   <link rel="stylesheet" href="../css/styles.css">
 
   <style>
-    /* Estilos directos de respaldo para el carrusel */
-    .carrusel-contenedor {
-      position: relative;
-      max-width: 400px;
-      margin: 0 auto;
-    }
-    .carrusel-item {
-      display: none;
-      text-align: center;
-    }
-    .carrusel-item.active {
-      display: block;
-    }
-    .carrusel-item img {
-      width: 100%;
-      height: auto;
-      max-height: 300px;
-      object-fit: contain;
-      border-radius: 8px;
-    }
-    .carrusel-boton {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background-color: rgba(0, 0, 0, 0.7);
-      color: #fff;
-      border: none;
-      padding: 10px 15px;
-      cursor: pointer;
-      border-radius: 50%;
-      font-size: 18px;
-      z-index: 10;
-    }
+    .carrusel-contenedor { position: relative; max-width: 400px; margin: 0 auto; }
+    .carrusel-item { display: none; text-align: center; }
+    .carrusel-item.active { display: block; }
+    .carrusel-item img { width: 100%; height: auto; max-height: 300px; object-fit: contain; border-radius: 8px; }
+    .carrusel-boton { position: absolute; top: 50%; transform: translateY(-50%); background-color: rgba(0, 0, 0, 0.7); color: #fff; border: none; padding: 10px 15px; cursor: pointer; border-radius: 50%; font-size: 18px; z-index: 10; }
     .carrusel-boton.prev { left: 10px; }
     .carrusel-boton.next { right: 10px; }
   </style>
@@ -50,18 +22,12 @@
   <div class="logo">
     <img src="../assets/logo-tienda.png" alt="Aria Logo" class="logo-img">
   </div>
-  
   <nav class="nav-links">
     <a href="index.html">Inicio</a>
     <a href="contacto.html">Contacto</a>
     <a href="categorias.html">Categoría</a>
     <div class="search-box">
-      <input 
-        type="text" 
-        id="searchInput" 
-        placeholder="Buscar..." 
-        onkeydown="manejarBusquedaGlobal(event)"
-      >
+      <input type="text" id="searchInput" placeholder="Buscar..." onkeydown="manejarBusquedaGlobal(event)">
       <span class="search-icon" onclick="manejarBusquedaGlobal(event)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="11" cy="11" r="7"></circle>
@@ -69,57 +35,47 @@
         </svg>
       </span>
     </div>
+    <a href="carrito.html" class="carrito-icono" aria-label="Ver carrito">
+      <i class="fa-solid fa-cart-shopping"></i>
+      <span id="contadorCarrito" class="carrito-contador">0</span>
+    </a>
   </nav>
 </header>
 
   <main class="detalle-container">
     <div class="detalle-content">
-      
-      <!-- CARRUSEL DE IMÁGENES -->
       <div class="detalle-imagen">
         <div class="carrusel-contenedor">
           <div class="carrusel-track">
-            
-            <!-- Foto 1 (Tu imagen principal local) -->
             <div class="carrusel-item active">
-              <img src="../assets/melodica.png" alt="Melodica Vista Principal">
+              <img src="../assets/melodica.png" alt="Melódica Vista Principal">
             </div>
-            
-            <!-- Foto 2 (Complementaria de Internet) -->
             <div class="carrusel-item">
-              <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500" alt="Melodica Perspectiva 1">
+              <img src="../assets/melodica-perspectiva1.png" alt="Melódica Perspectiva 1">
             </div>
-
-            <!-- Foto 3 (Complementaria de Internet) -->
             <div class="carrusel-item">
-              <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500" alt="Melodica Perspectiva 2">
+              <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500" alt="Melódica Perspectiva 2">
             </div>
-
           </div>
-
-          <!-- Botones de navegación del carrusel -->
           <button class="carrusel-boton prev" onclick="cambiarImagen(-1)">&#10094;</button>
           <button class="carrusel-boton next" onclick="cambiarImagen(1)">&#10095;</button>
         </div>
       </div>
 
-      <!-- INFORMACIÓN DEL INSTRUMENTO -->
       <div class="detalle-info">
         <div class="precio-box">
-          <h2>Melodica</h2>
+          <h2>Melódica</h2>
           <p>Precio: $300</p>
         </div>
 
         <p class="descripcion-texto">
-          Melodica de excelente calidad, compacta y duradera. Ideal para blues, folk y diversos estilos musicales.
+          Melódica de excelente calidad, compacta y duradera. Ideal para blues, folk y diversos estilos musicales.
         </p>
 
         <div class="acciones-btns">
-          <a href="#" class="btn-comprar">Comprar</a>
-          <a href="viento.html" class="btn-regresar">Regresar</a>
+          <button type="button" class="btn-comprar" onclick="agregarYPagar()">Comprar</button>
         </div>
       </div>
-
     </div>
   </main>
 
@@ -147,30 +103,40 @@
     </div>
   </footer>
 
+  <script src="../js/carrito.js"></script>
   <script src="../js/main.js"></script>
 
-  <!-- SCRIPT PARA FUNCIONAMIENTO DEL CARRUSEL -->
   <script>
     let indiceImagen = 0;
-
     function mostrarImagen(n) {
       const imagenes = document.querySelectorAll('.carrusel-item');
       if (imagenes.length === 0) return;
-
       if (n >= imagenes.length) { indiceImagen = 0; }
       if (n < 0) { indiceImagen = imagenes.length - 1; }
-
       imagenes.forEach(img => img.classList.remove('active'));
       imagenes[indiceImagen].classList.add('active');
     }
+    function cambiarImagen(n) { mostrarImagen(indiceImagen += n); }
+    document.addEventListener('DOMContentLoaded', () => { mostrarImagen(0); });
 
-    function cambiarImagen(n) {
-      mostrarImagen(indiceImagen += n);
+    function agregarYPagar() {
+      agregarAlCarrito({
+        id: 'melodica',
+        nombre: 'Melódica',
+        precio: 300,
+        imagen: '../assets/melodica.png'
+      });
+      window.location.href = 'carrito.html';
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      mostrarImagen(0);
-    });
+    function manejarBusquedaGlobal(event) {
+      const esEnter = event.type === 'keydown' && event.key === 'Enter';
+      const esClic = event.type === 'click';
+      if (!esEnter && !esClic) return;
+      const termino = document.getElementById('searchInput').value.trim();
+      if (!termino) return;
+      window.location.href = 'categorias.html?buscar=' + encodeURIComponent(termino);
+    }
   </script>
 </body>
 </html>

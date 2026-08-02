@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <title>Finalizar compra - Instruments Aria</title>
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="logo">
+      <img src="../assets/logo-tienda.png" alt="Aria Logo" class="logo-img">
+    </div>
+
+    <nav class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="contacto.html">Contacto</a>
+      <a href="categorias.html">Categoría</a>
+      <div class="search-box">
+        <a href="carrito.html" class="carrito-icono" aria-label="Ver carrito">
+  <i class="fa-solid fa-cart-shopping"></i>
+  <span id="contadorCarrito" class="carrito-contador">0</span>
+</a>
+        <input type="text" id="searchInput" placeholder="Buscar..." onkeydown="manejarBusquedaGlobal(event)">
+        <span class="search-icon" onclick="manejarBusquedaGlobal(event)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </span>
+      </div>
+    </nav>
+  </header>
+
+  <main class="compra-container">
+    <h1 class="titulo-seccion">Finalizar compra</h1>
+
+    <div class="compra-grid">
+
+      <!-- Resumen del pedido: se llena con JavaScript desde el carrito -->
+      <section class="resumen-pedido">
+        <h2>Tu pedido</h2>
+        <div id="listaProductosCompra"></div>
+
+        <div class="resumen-totales" id="totalesCompra"></div>
+      </section>
+
+      <!-- Datos de envío y pago -->
+      <section class="form-compra-wrapper">
+        <form class="form-compra" id="formCompra">
+          <h2>Datos de envío</h2>
+
+          <label for="nombreCompra">Nombre completo</label>
+          <input type="text" id="nombreCompra" placeholder="Tu nombre completo" required>
+
+          <label for="direccion">Dirección de entrega</label>
+          <input type="text" id="direccion" placeholder="Calle, colonia, referencia" required>
+
+          <label for="telefonoCompra">Teléfono</label>
+          <input type="tel" id="telefonoCompra" placeholder="+503 0000 0000" required>
+
+          <h2 class="titulo-pago">Método de pago</h2>
+
+          <div class="metodos-pago">
+            <label class="metodo-pago-opcion">
+              <input type="radio" name="pago" value="tarjeta" checked>
+              <span><i class="fa-regular fa-credit-card"></i> Tarjeta</span>
+            </label>
+            <label class="metodo-pago-opcion">
+              <input type="radio" name="pago" value="contraentrega">
+              <span><i class="fa-solid fa-truck"></i> Contra entrega</span>
+            </label>
+          </div>
+
+          <div id="datosTarjeta" class="datos-tarjeta">
+            <label for="numeroTarjeta">Número de tarjeta</label>
+            <input type="text" id="numeroTarjeta" placeholder="0000 0000 0000 0000" maxlength="19">
+
+            <div class="tarjeta-fila">
+              <div>
+                <label for="venceTarjeta">Vencimiento</label>
+                <input type="text" id="venceTarjeta" placeholder="MM/AA" maxlength="5">
+              </div>
+              <div>
+                <label for="cvvTarjeta">CVV</label>
+                <input type="text" id="cvvTarjeta" placeholder="123" maxlength="4">
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-confirmar-compra">Confirmar compra</button>
+        </form>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-col">
+      <p><strong>ARIA INSTRUMENTS</strong></p>
+      <p>CONTÁCTANOS:<br>+503 6452-6024</p>
+      <p>© 2026 ARIA INSTRUMENTS</p>
+    </div>
+    <div class="footer-col">
+      <a href="#">TÉRMINOS Y CONDICIONES POLÍTICAS GENERALES DEVOLUCIÓN Y CAMBIOS - POLÍTICA DE PRIVACIDAD</a>
+      <br><br>
+      <a href="#">TÉRMINOS Y CONDICIONES DE PROMOCIONES</a>
+    </div>
+    <div class="footer-col">
+      <p><strong>PÁGINAS:</strong></p>
+      <p>INICIO :</p>
+      <p>CONTACTO:</p>
+      <p>CATEGORÍA:</p>
+    </div>
+    <div class="footer-socials">
+      <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+    </div>
+  </footer>
+
+  <script src="../js/carrito.js"></script>
+  <script src="../js/main.js"></script>
+  <script>
+    function manejarBusquedaGlobal(event) {
+      const esEnter = event.type === 'keydown' && event.key === 'Enter';
+      const esClic = event.type === 'click';
+      if (!esEnter && !esClic) return;
+      const termino = document.getElementById('searchInput').value.trim();
+      if (!termino) return;
+      window.location.href = 'categorias.html?buscar=' + encodeURIComponent(termino);
+    }
+
+    function renderResumenCompra() {
+      const carrito = obtenerCarrito();
+      const contenedor = document.getElementById('listaProductosCompra');
+
+      if (carrito.length === 0) {
+        contenedor.innerHTML = '<p class="carrito-vacio-msg">Tu carrito está vacío. <a href="categorias.html">Ver categorías</a>.</p>';
+        document.getElementById('totalesCompra').innerHTML = '';
+        document.querySelector('.btn-confirmar-compra').disabled = true;
+        return;
+      }
+
+      contenedor.innerHTML = carrito.map(p => `
+        <div class="producto-linea">
+          <img src="${p.imagen}" alt="${p.nombre}">
+          <div class="producto-linea-info">
+            <p class="producto-nombre">${p.nombre}</p>
+            <span class="cantidad-valor">Cantidad: ${p.cantidad}</span>
+          </div>
+          <p class="producto-subtotal">$${(p.precio * p.cantidad).toFixed(2)}</p>
+        </div>
+      `).join('');
+
+      const totales = calcularTotalesCarrito();
+      document.getElementById('totalesCompra').innerHTML = `
+        <div class="linea-total"><span>Subtotal</span><span>$${totales.subtotal.toFixed(2)}</span></div>
+        <div class="linea-total"><span>Envío</span><span>$${totales.envio.toFixed(2)}</span></div>
+        <div class="linea-total total-final"><span>Total</span><span>$${totales.total.toFixed(2)}</span></div>
+      `;
+    }
+
+    // Mostrar/ocultar campos de tarjeta según el método de pago elegido
+    document.querySelectorAll('input[name="pago"]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        const esTarjeta = document.querySelector('input[name="pago"]:checked').value === 'tarjeta';
+        document.getElementById('datosTarjeta').style.display = esTarjeta ? 'block' : 'none';
+      });
+    });
+
+    document.getElementById('formCompra').addEventListener('submit', function(e){
+      e.preventDefault();
+      if (obtenerCarrito().length === 0) return;
+
+      // Aquí conectas con tu lógica real: pasarela de pago,
+      // guardar el pedido en tu base de datos, enviar confirmación, etc.
+      alert('¡Compra confirmada! Gracias por tu pedido.');
+      vaciarCarrito();
+      window.location.href = 'index.html';
+    });
+
+    renderResumenCompra();
+  </script>
+</body>
+</html>
