@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/styles.css">
   <title>Instruments Aria</title>
 </head>
   <!-- FontAwesome para los iconos de redes del footer -->
@@ -35,12 +35,32 @@
   </nav>
 </header>
 
-  <section class="promociones">
-    <h2>¡Promociones!</h2>
-    <p>Si compras 1 clarinete te llevas uno gratis! Válido hasta el 17/01/2025</p>
-    <p>Si compras 1 Melódica te llevas uno gratis! Válido hasta el 11/11/2025</p>
-    <p>Si compras 1 Sampler te llevas otro gratis! Válido hasta el 28/05/2025</p>
-  </section>
+  <!-- Banner Promociones en movimiento (Marquee) -->
+  <div class="promociones">
+    <div class="promo-track">
+      <!-- Bloque 1 de Promociones -->
+      <div class="promo-content">
+        <span><strong>¡Promociones!</strong></span>
+        <span>Si compras 1 clarinete te llevas uno gratis! Válido hasta el 17/01/2026</span>
+        <span class="promo-separador">•</span>
+        <span>Si compras 1 Melódica te llevas uno gratis! Válido hasta el 11/11/2026</span>
+        <span class="promo-separador">•</span>
+        <span>Si compras 1 Sampler te llevas otro gratis! Válido hasta el 28/05/2026</span>
+        <span class="promo-separador">•</span>
+      </div>
+      
+      <!-- Bloque 2 (Duplicado para lograr el bucle infinito perfecto) -->
+      <div class="promo-content">
+        <span><strong>¡Promociones!</strong></span>
+        <span>Si compras 1 clarinete te llevas uno gratis! Válido hasta el 17/01/2026</span>
+        <span class="promo-separador">•</span>
+        <span>Si compras 1 Melódica te llevas uno gratis! Válido hasta el 11/11/2026</span>
+        <span class="promo-separador">•</span>
+        <span>Si compras 1 Sampler te llevas otro gratis! Válido hasta el 28/05/2026</span>
+        <span class="promo-separador">•</span>
+      </div>
+    </div>
+  </div>
 
   <main class="hero-section">
     <div class="overlay"></div>
@@ -49,7 +69,7 @@
       <h1>Bienvenido/a a Instruments Aria</h1>
       <p class="slogan">“La música comienza con el instrumento perfecto”</p>
 
-            <h2>Productos más vendidos :</h2>
+      <h2>Productos más vendidos :</h2>
 
       <!-- === INICIO CARRUSEL === -->
       <div class="carrusel-contenedor">
@@ -71,7 +91,6 @@
         <button class="carrusel-boton next" onclick="cambiarImagen(1)">&#10095;</button>
       </div>
       <!-- === FIN CARRUSEL === -->
-
 
      <a href="categorias.html" class="btn-explorar">Explorar</a>
 
