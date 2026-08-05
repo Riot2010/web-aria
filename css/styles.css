@@ -21,7 +21,7 @@ body {
 }
 
 .logo-img {
-  width: 120px;  
+  width: 80px;  
   height: auto;  
   display: block;
 }
@@ -211,9 +211,9 @@ body {
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: flex-start;
-  gap: 30px;
+  gap: 25px;
   font-family: 'Arial', sans-serif;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 /* Estilos para cada columna */
@@ -253,6 +253,7 @@ body {
 .footer-socials {
   display: flex;
   gap: 15px;
+   flex-direction: column;
   align-items: center;
 }
 
@@ -270,6 +271,15 @@ body {
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
+.fa-whatsapp {
+  color: #25d366;
+}
+.fa-facebook-f {
+  color: #1877f2;
+}
+.fa-instagram {
+  color: #e1306c;
+}
 .footer-socials a:hover {
   background-color: #007bff; /* Color de realce al pasar el mouse (puedes cambiarlo) */
   transform: translateY(-3px);
@@ -835,6 +845,30 @@ body {
   padding-top: 12px;
 }
 
+/* ----boton para contiuar comprando si el cliente quiere comprar mas productos----*/
+
+.btn-seguir-comprando{
+  display: flex;
+  margin: 30px auto 0;
+  margin-top: 55px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: #d4a017;
+  color: #Ffffff;
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 10px 30px;
+  border-radius: 12px;
+  text-align: center;
+  right: 500px;
+  width: 200px;
+}
+.btn-seguir-comprando:hover{
+  background-color: #b8860b;
+
+}
 /* --- Formulario de compra --- */
 .form-compra-wrapper {
   flex: 1;
