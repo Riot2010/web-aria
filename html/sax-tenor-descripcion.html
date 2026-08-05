@@ -114,7 +114,7 @@
         </p>
 
         <div class="acciones-btns">
-           <a href="compra.html" class="btn-comprar">Comprar</a>
+           <button type="button" class="btn-comprar" onclick="agregarYPagar()">Comprar</button>
           <a href="viento.html" class="btn-regresar">Regresar</a>
         </div>
       </div>
@@ -145,11 +145,34 @@
       <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
     </div>
   </footer>
-
+   <script src="../js/carrito.js"></script>
   <script src="../js/main.js"></script>
 
-  <!-- SCRIPT PARA FUNCIONAMIENTO DEL CARRUSEL -->
   <script>
+    // Carrito y Redirección
+    function agregarYPagar() {
+      agregarAlCarrito({
+        id: 'sax-tenor',
+        nombre: 'Saxofón Tenor',
+        precio: 580,
+        imagen: '../assets/sax-tenor.png'
+      });
+      window.location.href = 'carrito.html';
+    }
+
+    // Búsqueda Global
+    function manejarBusquedaGlobal(event) {
+      const esEnter = event.type === 'keydown' && event.key === 'Enter';
+      const esClic = event.type === 'click';
+      if (!esEnter && !esClic) return;
+
+      const termino = document.getElementById('searchInput').value.trim();
+      if (!termino) return;
+
+      window.location.href = 'categorias.html?buscar=' + encodeURIComponent(termino);
+    }
+
+    // Lógica del Carrusel de Imágenes
     let indiceImagen = 0;
 
     function mostrarImagen(n) {
