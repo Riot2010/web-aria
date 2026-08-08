@@ -47,14 +47,13 @@
       <div class="detalle-imagen">
         <div class="carrusel-contenedor">
           <div class="carrusel-track">
+            <!-- Vista Principal Original -->
             <div class="carrusel-item active">
               <img src="../assets/armonio.png" alt="Armonio Vista Principal">
             </div>
+            <!-- Nueva Perspectiva Frontal -->
             <div class="carrusel-item">
-              <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500" alt="Armonio Vista Perspectiva 1">
-            </div>
-            <div class="carrusel-item">
-              <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500" alt="Armonio Vista Perspectiva 2">
+              <img src="../assets/armonio-2.png" alt="Armonio Vista Frontal">
             </div>
           </div>
           <button class="carrusel-boton prev" onclick="cambiarImagen(-1)">&#10094;</button>
@@ -124,7 +123,7 @@
         id: 'armonio',
         nombre: 'Armonio',
         precio: 800,
-        imagen: 'https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=500'
+        imagen: '../assets/armonio.png'
       });
       window.location.href = 'carrito.html';
     }

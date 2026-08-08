@@ -47,14 +47,17 @@
       <div class="detalle-imagen">
         <div class="carrusel-contenedor">
           <div class="carrusel-track">
+            <!-- Vista Principal -->
             <div class="carrusel-item active">
-              <img src="../assets/organo-tubos.png" alt="Órgano de Tubos Vista Principal">
+              <img src="../assets/organo-tubos.png" alt="Órgano de Tubos Vista Completa">
             </div>
+            <!-- Perspectiva Superior -->
             <div class="carrusel-item">
-              <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500" alt="Órgano de Tubos Perspectiva 1">
+              <img src="../assets/organo-tubos-2.png" alt="Órgano de Tubos Vista Superior">
             </div>
+            <!-- Perspectiva Inferior -->
             <div class="carrusel-item">
-              <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500" alt="Órgano de Tubos Perspectiva 2">
+              <img src="../assets/organo-tubos-3.png" alt="Órgano de Tubos Vista Inferior">
             </div>
           </div>
           <button class="carrusel-boton prev" onclick="cambiarImagen(-1)">&#10094;</button>
@@ -65,11 +68,11 @@
       <div class="detalle-info">
         <div class="precio-box">
           <h2>Órgano de Tubos</h2>
-          <p>Precio: $1200</p>
+          <p>Precio: $800</p>
         </div>
 
         <p class="descripcion-texto">
-          Órgano de tubos con gran potencia sonora y excelente respuesta acústica, ideal para iglesias, auditorios y salas de conciertos.
+          Órgano de tubos majestuoso con un sonido resonante y profundo, ideal para salas de concierto y espacios solemnes.
         </p>
 
         <div class="acciones-btns">
@@ -82,7 +85,7 @@
 
   <footer class="footer">
     <div class="footer-col">
-      <p><strong>ARIA INSTRUMENTS</strong></p>
+      <p>ARIA INSTRUMENTS</p>
       <p>CONTÁCTANOS:<br>+503 6452-6024</p>
       <p>© 2026 ARIA INSTRUMENTS</p>
     </div>
@@ -106,7 +109,6 @@
 
   <script src="../js/carrito.js"></script>
   <script src="../js/main.js"></script>
-
   <script>
     let indiceImagen = 0;
     function mostrarImagen(n) {
@@ -124,7 +126,7 @@
       agregarAlCarrito({
         id: 'organo-tubos',
         nombre: 'Órgano de Tubos',
-        precio: 1200,
+        precio: 800,
         imagen: '../assets/organo-tubos.png'
       });
       window.location.href = 'carrito.html';
