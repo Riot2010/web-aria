@@ -7,6 +7,17 @@
   <title> Theremin - Instruments Aria</title>
   <link rel="stylesheet" href="../css/styles.css">
 </head>
+
+  <style>
+    .carrusel-contenedor { position: relative; max-width: 400px; margin: 0 auto; }
+    .carrusel-item { display: none; text-align: center; }
+    .carrusel-item.active { display: block; }
+    .carrusel-item img { width: 100%; height: auto; max-height: 300px; object-fit: contain; border-radius: 8px; }
+    .carrusel-boton { position: absolute; top: 50%; transform: translateY(-50%); background-color: rgba(0, 0, 0, 0.7); color: #fff; border: none; padding: 10px 15px; cursor: pointer; border-radius: 50%; font-size: 18px; z-index: 10; }
+    .carrusel-boton.prev { left: 10px; }
+    .carrusel-boton.next { right: 10px; }
+  </style>
+
 <body>
 
   <header class="navbar">
@@ -34,10 +45,23 @@
   </header>
 
   <main class="detalle-container">
-    <div class="detalle-content">
-      
+<div class="detalle-content">
       <div class="detalle-imagen">
-        <img src="../assets/theremin.png" alt="Theremin">
+        <div class="carrusel-contenedor">
+          <div class="carrusel-track">
+            <div class="carrusel-item active">
+              <img src="../assets/theremin.png" alt="Theremin Vista Principal">
+            </div>
+            <div class="carrusel-item">
+              <img src="../assets/theremin-perspectiva2-removebg-preview.png" alt="Theremin Perspectiva 1">
+            </div>
+            <div class="carrusel-item">
+              <img src="../assets/theremin-perspectiva3-removebg-preview.png" alt="Theremin Perspectiva 2">
+            </div>
+          </div>
+          <button class="carrusel-boton prev" onclick="cambiarImagen(-1)">&#10094;</button>
+          <button class="carrusel-boton next" onclick="cambiarImagen(1)">&#10095;</button>
+        </div>
       </div>
 
       <div class="detalle-info">
