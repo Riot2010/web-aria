@@ -323,7 +323,71 @@ body {
   transform: translateY(-3px);
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
+  /* 1. Navbar adaptada */
+  .navbar {
+    flex-direction: column;
+    padding: 15px;
+    gap: 15px;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .nav-links a {
+    margin-left: 0;
+    font-size: 0.9rem;
+  }
+
+  /* 2. Buscador responsivo */
+  .search-box {
+    margin-left: 0;
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .search-box input {
+    width: 100%;
+  }
+
+  /* 3. Hero Section y Títulos */
+  .hero-content h1 {
+    font-size: 1.5rem;
+  }
+
+  .slogan {
+    font-size: 0.9rem;
+  }
+
+  /* 4. Grid de Productos (con scroll horizontal o wrap) */
+  .productos-grid {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .card {
+    width: 80px;
+    height: 110px;
+  }
+
+  /* 5. Botón y Descripciones */
+  .btn-explorar {
+    width: 100%;
+    max-width: 280px;
+    padding: 10px 20px;
+    font-size: 1rem;
+  }
+
+  .descripcion {
+    text-align: left; /* Alineado a la izquierda para evitar espacios raros entre palabras en móvil */
+    font-size: 0.85rem;
+  }
+
+  /* 6. Footer alineado */
   .footer {
     flex-direction: column;
     align-items: center;
@@ -331,11 +395,12 @@ body {
   }
 
   .footer-col {
+    min-width: 100%;
     align-items: center;
   }
 
   .footer-socials {
-    justify-content: center;
+    flex-direction: row; /* Iconos horizontales en móvil */
   }
 }
 
@@ -471,6 +536,56 @@ body {
 }
 
 /* ===================================
+   ADAPTACIÓN NAVBAR MANTENIENDO ESTRUCTURA
+   =================================== */
+
+@media screen and (max-width: 768px) {
+  /* Mantener alineación horizontal y distribuir elementos */
+  .navbar {
+    display: flex;
+    flex-direction: row; /* Fuerza a mantenerlos en la misma fila */
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px; /* Reducción de relleno para ganar espacio */
+    gap: 8px;
+  }
+
+  /* Ajustar tamaño del logo para móviles */
+  .logo-img {
+    width: 50px; /* Tamaño reducido para no desplazar verticalmente */
+  }
+
+  /* Enlaces alineados horizontalmente */
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Espaciado compacto entre enlaces */
+  }
+
+  .nav-links a {
+    margin-left: 0; /* Limpieza de márgenes viejos */
+    font-size: 0.8rem; /* Tamaño de texto adecuado para móviles */
+  }
+
+  /* Buscador compacto ajustado a la fila */
+  .search-box {
+    margin-left: 0;
+    padding: 2px 6px 2px 8px;
+    border-radius: 12px;
+  }
+
+  .search-box input {
+    width: 70px; /* Ancho ajustado para que todo quepa horizontalmente */
+    font-size: 0.75rem;
+  }
+
+  .search-icon svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+/* ===================================
    ESTILOS VISTA DETALLE DE PRODUCTO
    =================================== */
 
@@ -558,35 +673,62 @@ body {
   background-color: #b8860b;
 }
 
-@media (max-width: 768px) {
-  .productos-grid-catalogo {
-    grid-template-columns: repeat(2, 1fr); 
+/* ===================================
+   ADAPTACIÓN DETALLE DE PRODUCTO
+   =================================== */
+
+@media screen and (max-width: 768px) {
+  .detalle-container {
+    padding: 20px 15px;
+    min-height: auto;
   }
 
+  /* Cambia la alineación a vertical (Imagen arriba, Info abajo) */
   .detalle-content {
     flex-direction: column;
+    gap: 25px;
     text-align: center;
   }
-  
-  .acciones-btns {
-    justify-content: center;
+
+  /* Control de tamaño de la imagen */
+  .detalle-imagen img {
+    max-width: 220px;
+    max-height: 280px;
   }
 
-  .navbar {
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  .nav-links {
-    flex-wrap: wrap;
-    justify-content: center;
+  /* Ajuste de tipografía y separación */
+  .detalle-info {
+    gap: 15px;
     width: 100%;
+  }
+
+  .descripcion-texto {
+    font-size: 0.9rem;
+    text-align: left; /* Lectura más cómoda para párrafos largos */
+  }
+
+  /* Caja de precios compacta */
+  .precio-box {
+    padding: 12px 15px;
+  }
+
+  .precio-box h2,
+  .precio-box p {
+    font-size: 1.5rem; /* Se reduce de 2rem a 1.5rem para evitar desbordes */
+  }
+
+  /* Botones alineados horizontal o verticalmente si la pantalla es muy estrecha */
+  .acciones-btns {
+    flex-direction: row;
+    justify-content: center;
     gap: 10px;
   }
 
-  .search-box {
-    margin-left: 0;
-    margin-top: 8px;
+  .btn-comprar, 
+  .btn-regresar {
+    flex: 1; /* Hacen que ambos botones compartan el espacio equitativamente */
+    font-size: 0.95rem;
+    padding: 12px 10px;
   }
 }
 
@@ -648,6 +790,41 @@ body {
 
 .carrusel-boton.next {
   right: 15px;
+}
+
+/* ===================================
+   ADAPTACIÓN CARRUSEL DE IMÁGENES
+   =================================== */
+
+@media screen and (max-width: 768px) {
+  .carrusel-contenedor {
+    max-width: 95%; /* Ocupa casi todo el ancho disponible */
+    margin: 15px auto;
+    border-radius: 8px;
+  }
+
+  .carrusel-item {
+    padding: 10px;
+  }
+
+  /* Reducción de la altura para móviles */
+  .carrusel-item img {
+    height: 220px; 
+  }
+
+  /* Botones laterales más compactos */
+  .carrusel-boton {
+    padding: 6px 12px;
+    font-size: 16px;
+  }
+
+  .carrusel-boton.prev {
+    left: 8px;
+  }
+
+  .carrusel-boton.next {
+    right: 8px;
+  }
 }
 
 /* ===================================
@@ -746,9 +923,52 @@ body {
   background-color: #b8860b;
 }
 
-@media (max-width: 500px) {
+/* ===================================
+   ADAPTACIÓN PÁGINA DE CONTACTO
+   =================================== */
+
+@media screen and (max-width: 768px) {
+  .contacto-container {
+    padding: 25px 15px; /* Menos margen superior para no obligar a bajar tanto la pantalla */
+    min-height: auto;
+  }
+
   .form-contacto {
-    max-width: 100%;
+    max-width: 100%; /* Ocupa todo el ancho útil de la pantalla */
+  }
+
+  .form-contacto h1 {
+    font-size: 1.4rem;
+  }
+
+  .subtitulo-form {
+    font-size: 0.85rem;
+    margin-bottom: 15px;
+  }
+
+  .form-contacto label {
+    font-size: 0.9rem;
+    margin-top: 10px;
+    margin-bottom: 4px;
+  }
+
+  /* Campos más cómodos para el teclado móvil */
+  .form-contacto input,
+  .form-contacto textarea {
+    font-size: 1rem; /* El tamaño a 1rem previene el zoom automático molesto en iOS/Android */
+    padding: 12px 15px;
+  }
+
+  .form-contacto textarea {
+    min-height: 110px; /* Un poco más de altura para escribir cómodamente con el teclado en pantalla */
+  }
+
+  /* Botón de envío ajustado para el pulgar */
+  .btn-enviar {
+    margin-top: 20px;
+    padding: 12px;
+    font-size: 1rem;
+    width: 100%; /* Ocupa todo el ancho para facilitar el clic */
   }
 }
 
@@ -998,9 +1218,91 @@ body {
   background-color: #b8860b;
 }
 
-@media (max-width: 768px) {
+/* ===================================
+   ADAPTACIÓN PÁGINA DE COMPRA / CHECKOUT
+   =================================== */
+
+@media screen and (max-width: 768px) {
+  .compra-container {
+    padding: 20px 12px 40px;
+    min-height: auto;
+  }
+
+  /* Apilar resumen y formulario verticalmente */
   .compra-grid {
     flex-direction: column;
+    gap: 25px;
+    margin-top: 15px;
+  }
+
+  .resumen-pedido,
+  .form-compra-wrapper {
+    min-width: 100%;
+    width: 100%;
+    padding: 15px;
+  }
+
+  /* Línea de producto y controles táctiles más amplios */
+  .producto-linea {
+    gap: 10px;
+  }
+
+  .producto-linea img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .producto-nombre {
+    font-size: 0.85rem;
+  }
+
+  /* Botones + y - más fáciles de presionar en táctil */
+  .btn-cantidad {
+    width: 32px;
+    height: 32px;
+    font-size: 1.1rem;
+  }
+
+  /* Corrección del botón 'Seguir comprando' */
+  .btn-seguir-comprando {
+    right: auto; /* Anula la posición fija de escritorio */
+    width: 100%;
+    max-width: 250px;
+    margin: 25px auto 0;
+    font-size: 1rem;
+    padding: 10px 15px;
+  }
+
+  /* Campos del formulario de compra */
+  .form-compra input[type="text"],
+  .form-compra input[type="tel"] {
+    font-size: 1rem; /* Evita el zoom automático en navegadores móviles */
+    padding: 12px 14px;
+  }
+
+  /* Opciones de método de pago adaptables */
+  .metodos-pago {
+    flex-direction: column; /* Apila los métodos de pago en pantallas angostas */
+    gap: 8px;
+  }
+
+  .metodo-pago-opcion {
+    padding: 12px;
+    font-size: 0.9rem;
+  }
+
+  /* Campos de la tarjeta (Expiración / CVC) */
+  .tarjeta-fila {
+    flex-direction: column; /* Si la pantalla es muy angosta se apilan */
+    gap: 0;
+  }
+
+  /* Botón principal de confirmar */
+  .btn-confirmar-compra {
+    width: 100%;
+    margin-top: 20px;
+    padding: 14px;
+    font-size: 1rem;
   }
 }
 
@@ -1045,6 +1347,38 @@ body {
 }
 
 /* ===================================
+   ADAPTACIÓN CARRITO EXTRA
+   =================================== */
+
+@media screen and (max-width: 768px) {
+  /* Botón eliminar con mejor área táctil para el pulgar */
+  .btn-eliminar-producto {
+    font-size: 1.1rem;
+    padding: 10px; /* Incrementa la zona de clic sin deformar la interfaz */
+  }
+
+  /* Ajustes para el contenedor y texto de carrito vacío */
+  .carrito-vacio-msg {
+    padding: 20px 10px;
+    font-size: 0.95rem;
+  }
+
+  /* Ajuste responsivo del contenedor principal */
+  .carrito-wrapper {
+    width: 100%;
+    max-width: 100%;
+    margin: 15px auto 0;
+    padding: 0 10px;
+  }
+
+  /* Botón de ir a pagar en bloque completo */
+  .btn-ir-pagar {
+    width: 100%;
+    padding: 12px 0;
+  }
+}
+
+/* ===================================
    ÍCONO DE CARRITO EN LA NAVBAR
    =================================== */
 
@@ -1078,4 +1412,24 @@ body {
   align-items: center;
   justify-content: center;
   padding: 0 3px;
+}
+
+/* ===================================
+   ADAPTACIÓN ÍCONO DE CARRITO
+   =================================== */
+
+@media screen and (max-width: 768px) {
+  .carrito-icono {
+    margin-left: 6px; /* Reducción de margen para encajar bien en móviles */
+    font-size: 1rem;
+    padding: 4px; /* Un poco de área táctil extra */
+  }
+
+  .carrito-contador {
+    top: -6px;
+    right: -8px;
+    font-size: 0.6rem;
+    min-width: 15px;
+    height: 15px;
+  }
 }
