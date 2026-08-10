@@ -47,15 +47,12 @@
       <div class="detalle-imagen">
         <div class="carrusel-contenedor">
           <div class="carrusel-track">
-            <!-- Vista Principal -->
             <div class="carrusel-item active">
               <img src="../assets/melodica.png" alt="Melódica Vista Principal">
             </div>
-            <!-- Perspectiva 2 -->
             <div class="carrusel-item">
               <img src="../assets/Melodica-2.png" alt="Melódica Vista 2">
             </div>
-            <!-- Perspectiva 3 -->
             <div class="carrusel-item">
               <img src="../assets/Melodica-3.png" alt="Melódica Vista 3">
             </div>
@@ -68,7 +65,7 @@
       <div class="detalle-info">
         <div class="precio-box">
           <h2>Melódica</h2>
-          <p>Precio: $300</p>
+          <p>Precio: $76</p>
         </div>
 
         <p class="descripcion-texto">
@@ -108,6 +105,7 @@
   </footer>
 
   <script src="../js/carrito.js"></script>
+  <script src="../js/buscador.js"></script>
   <script src="../js/main.js"></script>
 
   <script>
@@ -127,19 +125,10 @@
       agregarAlCarrito({
         id: 'melodica',
         nombre: 'Melódica',
-        precio: 300,
+        precio: 76,
         imagen: '../assets/melodica.png'
       });
       window.location.href = 'carrito.html';
-    }
-
-    function manejarBusquedaGlobal(event) {
-      const esEnter = event.type === 'keydown' && event.key === 'Enter';
-      const esClic = event.type === 'click';
-      if (!esEnter && !esClic) return;
-      const termino = document.getElementById('searchInput').value.trim();
-      if (!termino) return;
-      window.location.href = 'categorias.html?buscar=' + encodeURIComponent(termino);
     }
   </script>
 </body>

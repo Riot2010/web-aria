@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="../css/styles.css">
-  <title>Instrumentos de Viento</title>
+  <title>Instrumentos de Viento - Aria Instruments</title>
 </head>
 <body>
 
@@ -13,24 +13,32 @@
     <div class="logo">
       <img src="../assets/logo-tienda.png" alt="Aria Logo" class="logo-img">
     </div>
-     <nav class="nav-links">
-    <a href="index.html">Inicio</a>
-    <a href="contacto.html">Contacto</a>
-    <a href="categorias.html">Categoría</a>
-    <div class="search-box">
-    <input type="text" id="searchInput" placeholder="Buscar..." onkeydown="manejarBusquedaGlobal(event)">
-      <span class="search-icon" onclick="manejarBusquedaGlobal(event)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="7"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-      </span>
-    </div>
-    <a href="carrito.html" class="carrito-icono" aria-label="Ver carrito">
-      <i class="fa-solid fa-cart-shopping"></i>
-      <span id="contadorCarrito" class="carrito-contador">0</span>
-    </a>
-  </nav>
+
+    <nav class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="contacto.html">Contacto</a>
+      <a href="categorias.html">Categoría</a>
+
+      <div class="search-box">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Buscar..."
+          onkeydown="manejarBusquedaGlobal(event)"
+        >
+        <span class="search-icon" onclick="manejarBusquedaGlobal(event)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </span>
+      </div>
+
+      <a href="carrito.html" class="carrito-icono" aria-label="Ver carrito">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span id="contadorCarrito" class="carrito-contador">0</span>
+      </a>
+    </nav>
   </header>
 
   <main class="catalogo-container">
@@ -41,7 +49,7 @@
           <img src="../assets/sax-alto.png" alt="Saxofon alto">
         </div>
         <h3>Saxofon alto Buffet serie 100</h3>
-        <p class="precio">Precio: 480$</p>
+        <p class="precio">Precio: $480</p>
         <a href="sax-descripcion.html" class="btn-info">Ver info</a>
       </div>
 
@@ -50,8 +58,8 @@
           <img src="../assets/clarinete.png" alt="Clarinete">
         </div>
         <h3>Clarinete</h3>
-        <p class="precio">Precio: 500$</p>
-         <a href="clarinete-descrpicion.html" class="btn-info">Ver info</a>
+        <p class="precio">Precio: $500</p>
+        <a href="clarinete-descrpicion.html" class="btn-info">Ver info</a>
       </div>
 
       <div class="producto-card">
@@ -59,7 +67,7 @@
           <img src="../assets/trompeta.png" alt="Trompeta">
         </div>
         <h3>Trompeta</h3>
-        <p class="precio">Precio: 230$</p>
+        <p class="precio">Precio: $230</p>
         <a href="trompeta-descripcion.html" class="btn-info">Ver info</a>
       </div>
 
@@ -68,8 +76,8 @@
           <img src="../assets/tuba2.png" alt="Tuba">
         </div>
         <h3>Tuba</h3>
-        <p class="precio">Precio: 1620$</p>
-         <a href="tuba2-descripcion.html" class="btn-info">Ver info</a>
+        <p class="precio">Precio: $1620</p>
+        <a href="tuba2-descripcion.html" class="btn-info">Ver info</a>
       </div>
 
       <div class="producto-card">
@@ -77,7 +85,7 @@
           <img src="../assets/sax-tenor.png" alt="Saxofon tenor">
         </div>
         <h3>Saxofon tenor</h3>
-        <p class="precio">Precio: 580$</p>
+        <p class="precio">Precio: $580</p>
         <a href="sax-tenor-descripcion.html" class="btn-info">Ver info</a>
       </div>
 
@@ -86,7 +94,7 @@
           <img src="../assets/eufonio.png" alt="Eufonio">
         </div>
         <h3>Eufonio</h3>
-        <p class="precio">Precio: 450$</p>
+        <p class="precio">Precio: $450</p>
         <a href="eufonio-descripcion.html" class="btn-info">Ver info</a>
       </div>
 
@@ -116,6 +124,10 @@
       <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
     </div>
   </footer>
-<script src="../js/main.js"></script>
+
+  <script src="../js/carrito.js"></script>
+  <script src="../js/buscador.js"></script>
+  <script src="../js/main.js"></script>
+
 </body>
 </html>

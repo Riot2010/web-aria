@@ -13,38 +13,49 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// Función para filtrar productos en la página actual
+// Función para filtrar productos en la página actual en tiempo real
 function filtrarProductos() {
   const input = document.getElementById("searchInput");
   if (!input) return;
 
-  const filtro = input.value.toLowerCase();
+  const filtro = input.value.toLowerCase().trim();
   const tarjetas = document.querySelectorAll(".producto-card");
 
   tarjetas.forEach((tarjeta) => {
-    const titulo = tarjeta.querySelector("h3").textContent.toLowerCase();
-    if (titulo.includes(filtro)) {
-      tarjeta.style.display = "";
-    } else {
-      tarjeta.style.display = "none";
+    // Buscamos el título dentro de la tarjeta del producto
+    const tituloElemento = tarjeta.querySelector("h3");
+    if (tituloElemento) {
+      const titulo = tituloElemento.textContent.toLowerCase();
+      if (titulo.includes(filtro)) {
+        tarjeta.style.display = ""; // Muestra el producto
+      } else {
+        tarjeta.style.display = "none"; // Oculta el producto
+      }
     }
   });
 }
 
-// Función para redirigir si el usuario presiona Enter o clic en la lupa desde Inicio/Categorías
+// Función para manejar la búsqueda (desde Enter o clic en la lupa)
 function manejarBusquedaGlobal(event) {
-  // Escucha si se presiona la tecla 'Enter' (keyCode 13) o si se activa directamente
+  // Escucha si presiona Enter o si es un evento de clic
   if (event.type === "click" || event.key === "Enter") {
     const input = document.getElementById("searchInput");
-    if (input && input.value.trim() !== "") {
-      // Guardamos lo que escribió en la memoria del navegador
-      sessionStorage.setItem("terminoBusqueda", input.value.trim());
+    if (!input || input.value.trim() === "") return;
 
-      // Redirigimos a la página de catálogo (ejemplo: viento.html)
-      // Ajusta la ruta según la ubicación de tus HTML
-      window.location.href = "viento.html";
-      window.location.href = "teclado.html";
-      window.location.href = "electronicos.html";
+    const textoBusqueda = input.value.trim();
+    const tarjetas = document.querySelectorAll(".producto-card");
+
+    // CASO 1: Si ya hay productos en la página actual (ejemplo: estás en teclado.html)
+    if (tarjetas.length > 0) {
+      filtrarProductos();
+    } 
+    // CASO 2: Si estás en Inicio o Contacto donde no hay productos visibles
+    else {
+      // Guardamos la búsqueda en memoria temporal
+      sessionStorage.setItem("terminoBusqueda", textoBusqueda);
+
+      // Redirigimos a una página de catálogo principal (puedes cambiar "categorias.html" por la que prefieras)
+      window.location.href = "categorias.html"; 
     }
   }
 }
