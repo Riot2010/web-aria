@@ -43,6 +43,8 @@ function manejarBusquedaGlobal(event) {
       // Redirigimos a la página de catálogo (ejemplo: viento.html)
       // Ajusta la ruta según la ubicación de tus HTML
       window.location.href = "viento.html";
+      window.location.href = "teclado.html";
+      window.location.href = "electronicos.html";
     }
   }
 }
