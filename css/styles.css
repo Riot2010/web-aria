@@ -309,6 +309,30 @@ body {
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
+/* Estilos del contenedor dorado */
+.banner-promocion {
+  background-color: #d89e13; 
+  border: 6px solid #9c6c06;  
+  border-radius: 20px;       
+  padding: 15px 25px;
+  max-width: 400px;
+  margin: 20px 20px 0 auto; /* Centrado horizontal con margen superior */
+  box-sizing: border-box;
+}
+
+/* Estilos para el texto promocional */
+.texto-banner {
+  color: #ffffff;
+  font-family: 'Impact', 'Arial Black', sans-serif; /* Tipografía gruesa e inclinada */
+  font-style: italic;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+  margin: 15px 0;
+  justify-content: center;
+  display: flex;
+  text-align: center;
+}
+
 .fa-whatsapp {
   color: #25d366;
 }
