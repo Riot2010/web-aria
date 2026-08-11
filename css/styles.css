@@ -509,6 +509,14 @@ body {
   padding: 0 20px;
 }
 
+/* Modo destacado: centra una sola tarjeta cuando hay coincidencia exacta */
+.catalogo-container.modo-destacado .productos-grid-catalogo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+}
+
 .producto-card {
   display: flex;
   flex-direction: column;
@@ -524,6 +532,16 @@ body {
   align-items: center;
   justify-content: center;
   margin-bottom: 12px;
+}
+
+/* Tarjeta destacada cuando el usuario busca un instrumento específico */
+.producto-card.producto-destacado {
+  transform: scale(1.08);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  border: 2px solid #d4a017;
+  border-radius: 10px;
+  padding: 10px;
+  transition: all 0.3s ease;
 }
 
 .producto-card .img-container img {
@@ -557,6 +575,12 @@ body {
 
 .btn-info:hover {
   background-color: #b8860b;
+}
+
+/* Mensaje cuando no hay coincidencias en la búsqueda */
+#sinResultados {
+  color: #cccccc;
+  grid-column: 1 / -1;
 }
 
 /* ===================================
