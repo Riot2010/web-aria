@@ -2,24 +2,31 @@
 // BUSCADOR DE PRODUCTOS
 // ===================================
 
+// Páginas de catálogo donde viven las tarjetas .producto-card reales.
+// Ajusta esta lista si agregas o renombras alguna página de categoría.
+const CATALOGOS_DISPONIBLES = ["viento.html", "teclado.html", "electronicos.html"];
+
 document.addEventListener("DOMContentLoaded", () => {
   const busquedaGuardada = sessionStorage.getItem("terminoBusqueda");
   const inputBusqueda = document.getElementById("searchInput");
+  const hayCatalogoAqui = !!document.querySelector(".producto-card");
 
-  // Si hay una búsqueda pendiente guardada (venimos de otra página), la ejecutamos
-  if (busquedaGuardada && inputBusqueda) {
+  // Si hay una búsqueda pendiente guardada (venimos de otra página con productos), la ejecutamos
+  if (busquedaGuardada && inputBusqueda && hayCatalogoAqui) {
     inputBusqueda.value = busquedaGuardada;
     filtrarProductos();
     sessionStorage.removeItem("terminoBusqueda");
   }
 
-  // Búsqueda en tiempo real mientras el usuario escribe
-  if (inputBusqueda) {
+  // Búsqueda en tiempo real mientras el usuario escribe (solo en páginas con catálogo de tarjetas)
+  if (inputBusqueda && hayCatalogoAqui) {
     inputBusqueda.addEventListener("input", filtrarProductos);
+  }
+
+  if (inputBusqueda) {
     inputBusqueda.addEventListener("keydown", manejarBusquedaGlobal);
   }
 
-  // Si el buscador tiene un botón de lupa, lo enlazamos también
   const botonLupa = document.getElementById("searchButton");
   if (botonLupa) {
     botonLupa.addEventListener("click", manejarBusquedaGlobal);
@@ -35,7 +42,7 @@ function normalizarTexto(texto) {
     .trim();
 }
 
-// Filtra productos en la página actual en tiempo real
+// Filtra productos en la página actual en tiempo real (solo aplica en catálogos con tarjetas)
 function filtrarProductos() {
   const input = document.getElementById("searchInput");
   if (!input) return;
@@ -50,7 +57,6 @@ function filtrarProductos() {
 
     const titulo = normalizarTexto(tituloElemento.textContent);
 
-    // Quitamos el resaltado de búsquedas anteriores
     tarjeta.classList.remove("producto-destacado");
 
     if (filtro === "" || titulo.includes(filtro)) {
@@ -63,6 +69,7 @@ function filtrarProductos() {
 
   mostrarMensajeSinResultados(coincidencias, filtro);
   actualizarModoDestacado(coincidencias, filtro);
+  ocultarResultadoGlobal(); // si estábamos mostrando un resultado global, lo limpiamos al filtrar localmente
 }
 
 // Centra las tarjetas visibles como grupo (sin importar la cantidad: 1, 2, 3, 4, 5...)
@@ -71,25 +78,21 @@ function actualizarModoDestacado(coincidencias, filtro) {
   if (!grid) return;
 
   if (filtro !== "" && coincidencias > 0) {
-    // Cambiamos de grid fijo a flex con wrap para que las tarjetas
-    // se agrupen y centren juntas, sin importar cuántas sean
     grid.style.display = "flex";
     grid.style.flexWrap = "wrap";
     grid.style.justifyContent = "center";
     grid.style.alignItems = "flex-start";
-    grid.style.gap = "80px 110px"; // espacio amplio vertical y horizontal
-    grid.style.padding = "40px 40px";
+    grid.style.gap = "70px 100px";
+    grid.style.padding = "30px 30px";
 
     const tarjetasVisibles = [...document.querySelectorAll(".producto-card")]
       .filter((t) => t.style.display !== "none");
 
-    // El borde dorado destacado solo aplica si queda UNA sola tarjeta
     if (coincidencias === 1) {
       tarjetasVisibles[0].classList.add("producto-destacado");
       tarjetasVisibles[0].scrollIntoView({ behavior: "smooth", block: "center" });
     }
   } else {
-    // Sin búsqueda activa: volvemos al grid normal de 3 columnas
     grid.style.display = "";
     grid.style.flexWrap = "";
     grid.style.justifyContent = "";
@@ -99,7 +102,7 @@ function actualizarModoDestacado(coincidencias, filtro) {
   }
 }
 
-// Muestra un aviso centrado si no se encontraron instrumentos
+// Muestra un aviso centrado si no se encontraron instrumentos (solo en catálogos)
 function mostrarMensajeSinResultados(coincidencias, filtro) {
   let mensaje = document.getElementById("sinResultados");
   const contenedor = document.querySelector(".productos-grid-catalogo") || document.body;
@@ -125,8 +128,88 @@ function mostrarMensajeSinResultados(coincidencias, filtro) {
   }
 }
 
+// ===================================
+// BÚSQUEDA GLOBAL (páginas sin catálogo: index, categorías, contacto)
+// Busca la tarjeta real en los catálogos y la muestra AQUÍ MISMO, sin redirigir.
+// ===================================
+
+// Recorre las páginas de catálogo, busca una tarjeta cuyo título coincida, y devuelve su HTML
+async function buscarTarjetaEnCatalogos(filtro) {
+  for (const pagina of CATALOGOS_DISPONIBLES) {
+    try {
+      const respuesta = await fetch(pagina);
+      if (!respuesta.ok) continue;
+
+      const html = await respuesta.text();
+      const documentoTemporal = new DOMParser().parseFromString(html, "text/html");
+      const tarjetas = documentoTemporal.querySelectorAll(".producto-card");
+
+      for (const tarjeta of tarjetas) {
+        const tituloElemento = tarjeta.querySelector("h3");
+        if (tituloElemento && normalizarTexto(tituloElemento.textContent).includes(filtro)) {
+          return tarjeta.outerHTML;
+        }
+      }
+    } catch (error) {
+      console.error(`No se pudo revisar ${pagina}:`, error);
+    }
+  }
+  return null; // no se encontró en ningún catálogo
+}
+
+// Crea (si no existe) el contenedor donde se muestra el resultado de la búsqueda global
+function obtenerContenedorResultadoGlobal() {
+  let contenedor = document.getElementById("resultadoBusquedaGlobal");
+  if (contenedor) return contenedor;
+
+  contenedor = document.createElement("div");
+  contenedor.id = "resultadoBusquedaGlobal";
+  contenedor.style.cssText = `
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+  `;
+
+  // Lo insertamos justo después del header, antes del contenido de la página
+  const header = document.querySelector(".navbar");
+  if (header) {
+    header.insertAdjacentElement("afterend", contenedor);
+  } else {
+    document.body.prepend(contenedor);
+  }
+
+  return contenedor;
+}
+
+// Muestra la tarjeta encontrada (o un mensaje de "sin resultados") en la página actual
+function mostrarResultadoBusquedaGlobal(htmlTarjeta, textoBusqueda) {
+  const contenedor = obtenerContenedorResultadoGlobal();
+
+  if (htmlTarjeta) {
+    contenedor.innerHTML = `<div style="width: 280px;">${htmlTarjeta}</div>`;
+    const tarjeta = contenedor.querySelector(".producto-card");
+    if (tarjeta) {
+      tarjeta.classList.add("producto-destacado");
+    }
+  } else {
+    contenedor.innerHTML = `
+      <p style="color:#cccccc; text-align:center; font-size:1.1rem;">
+        No se encontraron instrumentos que coincidan con "${textoBusqueda}".
+      </p>
+    `;
+  }
+
+  contenedor.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+// Oculta/limpia el resultado de búsqueda global (por ejemplo, al filtrar localmente en un catálogo)
+function ocultarResultadoGlobal() {
+  const contenedor = document.getElementById("resultadoBusquedaGlobal");
+  if (contenedor) contenedor.innerHTML = "";
+}
+
 // Función para manejar la búsqueda (desde Enter o clic en la lupa)
-function manejarBusquedaGlobal(event) {
+async function manejarBusquedaGlobal(event) {
   const esEnter = event.type === "keydown" && event.key === "Enter";
   const esClic = event.type === "click";
 
@@ -136,15 +219,23 @@ function manejarBusquedaGlobal(event) {
   if (!input || input.value.trim() === "") return;
 
   const textoBusqueda = input.value.trim();
-  const tarjetas = document.querySelectorAll(".producto-card");
+  const filtro = normalizarTexto(textoBusqueda);
 
-  // CASO 1: Ya hay productos en la página actual (ej: estás en teclado.html)
-  if (tarjetas.length > 0) {
+  // ¿El instrumento buscado tiene una tarjeta EN ESTA MISMA página?
+  const tarjetasLocales = document.querySelectorAll(".producto-card");
+  const hayCoincidenciaLocal = [...tarjetasLocales].some((tarjeta) => {
+    const tituloElemento = tarjeta.querySelector("h3");
+    return tituloElemento && normalizarTexto(tituloElemento.textContent).includes(filtro);
+  });
+
+  // CASO 1: Sí está en esta página -> lo filtramos y centramos aquí mismo
+  if (hayCoincidenciaLocal) {
     filtrarProductos();
+    return;
   }
-  // CASO 2: Estás en una página sin productos visibles (Inicio, Contacto, etc.)
-  else {
-    sessionStorage.setItem("terminoBusqueda", textoBusqueda);
-    window.location.href = "categorias.html";
-  }
+
+  // CASO 2: No está en esta página (o esta página no tiene catálogo, como index/categorias/contacto)
+  // -> Buscamos la tarjeta real en los catálogos y la mostramos AQUÍ MISMO, sin navegar
+  const htmlTarjeta = await buscarTarjetaEnCatalogos(filtro);
+  mostrarResultadoBusquedaGlobal(htmlTarjeta, textoBusqueda);
 }
