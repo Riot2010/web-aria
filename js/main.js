@@ -216,6 +216,10 @@ function mostrarResultadoBusquedaGlobal(htmlTarjeta, textoBusqueda) {
   const contenedor = obtenerContenedorResultadoGlobal();
   const tarjetaWrapper = contenedor.querySelector("#resultadoBusquedaCard");
 
+  // Limpiamos cualquier resultado anterior antes de pintar el nuevo,
+  // para evitar contenido residual de una búsqueda previa.
+  tarjetaWrapper.innerHTML = "";
+
   if (htmlTarjeta) {
     tarjetaWrapper.innerHTML = ajustarRutasTarjeta(htmlTarjeta);
     const tarjeta = tarjetaWrapper.querySelector(".producto-card");
@@ -243,9 +247,14 @@ function ocultarResultadoGlobal() {
   }
 }
 
-// Candado para evitar que dos búsquedas globales corran al mismo tiempo
-// (por ejemplo si el usuario presiona Enter varias veces rápido)
-let busquedaEnCurso = false;
+// Identificador de la búsqueda global más reciente. En vez de un simple
+// candado booleano (que ignoraba por completo cualquier búsqueda mientras
+// otra seguía en curso), usamos un contador: cada búsqueda nueva se marca
+// con su propio número, y si la respuesta del fetch llega cuando ya no es
+// la búsqueda más reciente, simplemente se descarta en vez de bloquear
+// nuevas búsquedas. Esto es lo que arregla el bug de "la segunda vez no
+// funciona".
+let idBusquedaActual = 0;
 
 // Función para manejar la búsqueda (desde Enter o clic en la lupa)
 async function manejarBusquedaGlobal(event) {
@@ -256,8 +265,6 @@ async function manejarBusquedaGlobal(event) {
 
   const input = document.getElementById("searchInput");
   if (!input || input.value.trim() === "") return;
-
-  if (busquedaEnCurso) return; // ya hay una búsqueda en proceso, ignoramos esta
 
   const textoBusqueda = input.value.trim();
   const filtro = normalizarTexto(textoBusqueda);
@@ -277,11 +284,13 @@ async function manejarBusquedaGlobal(event) {
 
   // CASO 2: No está en esta página (o esta página no tiene catálogo, como index/categorias/contacto)
   // -> Buscamos la tarjeta real en los catálogos y la mostramos en el overlay, sin navegar
-  busquedaEnCurso = true;
-  try {
-    const htmlTarjeta = await buscarTarjetaEnCatalogos(filtro);
-    mostrarResultadoBusquedaGlobal(htmlTarjeta, textoBusqueda);
-  } finally {
-    busquedaEnCurso = false;
-  }
+  const miId = ++idBusquedaActual; // marcamos esta búsqueda como "la más reciente"
+
+  const htmlTarjeta = await buscarTarjetaEnCatalogos(filtro);
+
+  // Si mientras esperábamos el fetch el usuario lanzó otra búsqueda más
+  // nueva, esta respuesta ya quedó obsoleta: no la mostramos.
+  if (miId !== idBusquedaActual) return;
+
+  mostrarResultadoBusquedaGlobal(htmlTarjeta, textoBusqueda);
 }
