@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <title>Piano Eléctrico - Aria Instruments</title>
   <link rel="stylesheet" href="../css/styles.css">
 </head>
@@ -36,30 +36,9 @@
 <main class="detalle-container">
   <div class="detalle-content">
 
-    <!-- === INICIO CARRUSEL PIANO ELÉCTRICO === -->
     <div class="detalle-imagen">
-      <div class="carrusel-contenedor">
-        <div class="carrusel-track">
-          <!-- Vista 1 -->
-          <div class="carrusel-item active">
-            <img src="../assets/piano-elec.png" alt="Piano Eléctrico - Vista 1">
-          </div>
-          <!-- Vista 2 -->
-          <div class="carrusel-item">
-            <img src="../assets/piano-elec-perspectiva2.png" alt="Piano Eléctrico - Vista 2">
-          </div>
-          <!-- Vista 3 -->
-          <div class="carrusel-item">
-            <img src="../assets/piano-elec-perspectiva3.png" alt="Piano Eléctrico - Vista 3">
-          </div>
-        </div>
-
-        <!-- Botones para cambiar imagen -->
-        <button type="button" class="carrusel-boton prev" onclick="cambiarImagen(-1)">&#10094;</button>
-        <button type="button" class="carrusel-boton next" onclick="cambiarImagen(1)">&#10095;</button>
-      </div>
+      <img src="../assets/piano-elec.png" alt="Piano Eléctrico">
     </div>
-    <!-- === FIN CARRUSEL === -->
 
     <div class="detalle-info">
       <p class="descripcion-texto">
@@ -73,7 +52,7 @@
 
       <div class="acciones-btns">
         <button type="button" class="btn-comprar" onclick="agregarYPagar()">Comprar</button>
-        <a href="teclado.html" class="btn-regresar">Regresar</a>
+       <a href="teclado.html" class="btn-regresar">Regresar</a> 
       </div>
     </div>
 
@@ -97,32 +76,14 @@
     <p>CATEGORÍA:</p>
   </div>
   <div class="footer-socials">
-     <a href="https://chat.whatsapp.com/CFkIXrTXCAu4XoFPYL0kQy" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-      <a href="https://www.instagram.com/web_ariaa?igsh=ZWt6YTYwdGx3Mmp4" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-       <a href="https://www.facebook.com/profile.php?id=61593188099367" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+   <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
   </div>
 </footer>
-
 <script src="../js/carrito.js"></script>
 <script src="../js/main.js"></script>
 <script>
-  let indiceImagen = 0;
-
-  function mostrarImagen(n) {
-    const imagenes = document.querySelectorAll('.carrusel-item');
-    if (imagenes.length === 0) return;
-
-    if (n >= imagenes.length) { indiceImagen = 0; }
-    if (n < 0) { indiceImagen = imagenes.length - 1; }
-
-    imagenes.forEach(img => img.classList.remove('active'));
-    imagenes[indiceImagen].classList.add('active');
-  }
-
-  function cambiarImagen(n) {
-    mostrarImagen(indiceImagen += n);
-  }
-
   function agregarYPagar() {
     agregarAlCarrito({
       id: 'piano-elec',
