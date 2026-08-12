@@ -509,6 +509,14 @@ body {
   padding: 0 20px;
 }
 
+/* Modo destacado: centra una sola tarjeta cuando hay coincidencia exacta */
+.catalogo-container.modo-destacado .productos-grid-catalogo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+}
+
 .producto-card {
   display: flex;
   flex-direction: column;
@@ -524,6 +532,16 @@ body {
   align-items: center;
   justify-content: center;
   margin-bottom: 12px;
+}
+
+/* Tarjeta destacada cuando el usuario busca un instrumento específico */
+.producto-card.producto-destacado {
+  transform: scale(1.08);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  border: 2px solid #d4a017;
+  border-radius: 10px;
+  padding: 10px;
+  transition: all 0.3s ease;
 }
 
 .producto-card .img-container img {
@@ -557,6 +575,12 @@ body {
 
 .btn-info:hover {
   background-color: #b8860b;
+}
+
+/* Mensaje cuando no hay coincidencias en la búsqueda */
+#sinResultados {
+  color: #cccccc;
+  grid-column: 1 / -1;
 }
 
 /* ===================================
@@ -1455,5 +1479,60 @@ body {
     font-size: 0.6rem;
     min-width: 15px;
     height: 15px;
+  }
+}
+
+/* ===================================
+   OVERLAY DE RESULTADO DE BÚSQUEDA (pantalla completa)
+   =================================== */
+
+.resultado-busqueda-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.92);
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  overflow-y: auto;
+}
+
+.resultado-busqueda-overlay.activo {
+  display: flex;
+}
+
+.resultado-busqueda-contenido {
+  position: relative;
+  width: 280px;
+  max-width: 90%;
+}
+
+.btn-cerrar-resultado {
+  position: absolute;
+  top: -55px;
+  right: 0;
+  background: none;
+  border: 2px solid #d4a017;
+  color: #d4a017;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-cerrar-resultado:hover {
+  background-color: #d4a017;
+  color: #000000;
+}
+
+@media screen and (max-width: 768px) {
+  .resultado-busqueda-contenido {
+    width: 240px;
   }
 }

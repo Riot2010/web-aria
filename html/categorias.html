@@ -81,61 +81,14 @@
       <p><a href="categorias.html">CATEGORÍA</a></p>
     </div>
     <div class="footer-socials">
-      <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-      <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-      <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+       <a href="https://chat.whatsapp.com/CFkIXrTXCAu4XoFPYL0kQy" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      <a href="https://www.instagram.com/web_ariaa?igsh=ZWt6YTYwdGx3Mmp4" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+         <a href="https://www.facebook.com/profile.php?id=61593188099367" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
     </div>
   </footer>
 
+        <script src="../js/carrito.js"></script>
+  <script src="../js/buscador.js"></script>
   <script src="../js/main.js"></script>
-  <script>
-    // Búsqueda global: se activa al presionar Enter en el input
-    // o al hacer clic en el ícono de la lupa. Redirige a esta misma
-    // página con el término como parámetro para que se pueda resaltar
-    // la categoría relacionada.
-    function manejarBusquedaGlobal(event) {
-      const esEnter = event.type === 'keydown' && event.key === 'Enter';
-      const esClic = event.type === 'click';
-      if (!esEnter && !esClic) return;
-
-      const termino = document.getElementById('searchInput').value.trim();
-      if (!termino) return;
-
-      window.location.href = 'categorias.html?buscar=' + encodeURIComponent(termino);
-    }
-
-    // Al cargar la página, si viene un término de búsqueda en la URL,
-    // resalta la tarjeta de categoría cuyas palabras clave coincidan
-    // y hace scroll hasta ella.
-    document.addEventListener('DOMContentLoaded', () => {
-      const params = new URLSearchParams(window.location.search);
-      const termino = params.get('buscar');
-      if (!termino) return;
-
-      document.getElementById('searchInput').value = termino;
-
-      const terminoNormalizado = termino
-        .toLowerCase()
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, ''); // quita tildes para comparar mejor
-
-      const tarjetas = document.querySelectorAll('.categoria-card');
-      let coincidencia = null;
-
-      tarjetas.forEach(tarjeta => {
-        const palabrasClave = tarjeta.dataset.keywords || '';
-        if (palabrasClave.includes(terminoNormalizado)) {
-          tarjeta.classList.add('categoria-resaltada');
-          if (!coincidencia) coincidencia = tarjeta;
-        } else {
-          tarjeta.classList.remove('categoria-resaltada');
-        }
-      });
-
-      if (coincidencia) {
-        coincidencia.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-    });
-  </script>
 </body>
 </html>
