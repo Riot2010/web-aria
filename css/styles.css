@@ -348,34 +348,79 @@ body {
 }
 
 @media screen and (max-width: 768px) {
-  /* 1. Navbar adaptada */
+  /* 1. Navbar adaptada: logo + carrito arriba, links en medio,
+        buscador ocupando toda la fila de abajo, todo centrado y simétrico */
   .navbar {
-    flex-direction: column;
-    padding: 15px;
-    gap: 15px;
-  }
-
-  .nav-links {
+    display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    column-gap: 10px;
+    row-gap: 14px;
   }
 
-  .nav-links a {
+  /* "Separadores" invisibles que fuerzan el salto de línea entre cada fila */
+  .navbar::before {
+    content: "";
+    order: 3;
+    flex-basis: 100%;
+    height: 0;
+  }
+
+  .navbar::after {
+    content: "";
+    order: 5;
+    flex-basis: 100%;
+    height: 0;
+  }
+
+  .logo {
+    order: 1;
+  }
+
+  .logo-img {
+    width: 50px;
+    height: auto;
+  }
+
+  /* nav-links deja de comportarse como una "caja" propia: sus hijos
+     (links, buscador, carrito) pasan a ser hijos directos de .navbar,
+     así podemos ordenarlos libremente con "order" */
+  .nav-links {
+    display: contents;
+  }
+
+  .nav-links a:not(.carrito-icono) {
+    order: 4;
+    flex: 1 1 auto;
+    text-align: center;
     margin-left: 0;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
   }
 
-  /* 2. Buscador responsivo */
+  .carrito-icono {
+    order: 2;
+    margin-left: 0;
+  }
+
+  /* 2. Buscador responsivo: fila propia, centrado, ancho completo */
   .search-box {
-    margin-left: 0;
+    order: 6;
     width: 100%;
-    max-width: 300px;
+    max-width: 320px;
+    margin: 0 auto;
+    padding: 4px 8px 4px 14px;
   }
 
   .search-box input {
     width: 100%;
+    font-size: 0.85rem;
+  }
+
+  .search-icon svg {
+    width: 16px;
+    height: 16px;
   }
 
   /* 3. Hero Section y Títulos */
@@ -592,54 +637,10 @@ body {
 }
 
 /* ===================================
-   ADAPTACIÓN NAVBAR MANTENIENDO ESTRUCTURA
+   ADAPTACIÓN CATÁLOGO EN MÓVIL (MODO DESTACADO)
    =================================== */
 
 @media screen and (max-width: 768px) {
-  /* Mantener alineación horizontal y distribuir elementos */
-  .navbar {
-    display: flex;
-    flex-direction: row; /* Fuerza a mantenerlos en la misma fila */
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 12px; /* Reducción de relleno para ganar espacio */
-    gap: 8px;
-  }
-
-  /* Ajustar tamaño del logo para móviles */
-  .logo-img {
-    width: 50px; /* Tamaño reducido para no desplazar verticalmente */
-  }
-
-  /* Enlaces alineados horizontalmente */
-  .nav-links {
-    display: flex;
-    align-items: center;
-    gap: 8px; /* Espaciado compacto entre enlaces */
-  }
-
-  .nav-links a {
-    margin-left: 0; /* Limpieza de márgenes viejos */
-    font-size: 0.8rem; /* Tamaño de texto adecuado para móviles */
-  }
-
-  /* Buscador compacto ajustado a la fila */
-  .search-box {
-    margin-left: 0;
-    padding: 2px 6px 2px 8px;
-    border-radius: 12px;
-  }
-
-  .search-box input {
-    width: 70px; /* Ancho ajustado para que todo quepa horizontalmente */
-    font-size: 0.75rem;
-  }
-
-  .search-icon svg {
-    width: 14px;
-    height: 14px;
-  }
-
   /* Modo destacado en móvil: espaciado más compacto y simétrico */
   .catalogo-container.modo-destacado .productos-grid-catalogo {
     gap: 30px 0;
