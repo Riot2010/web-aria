@@ -23,9 +23,18 @@ document.addEventListener("DOMContentLoaded", () => {
     inputBusqueda.addEventListener("input", filtrarProductos);
   }
 
-  if (inputBusqueda) {
-    inputBusqueda.addEventListener("keydown", manejarBusquedaGlobal);
+  // Páginas sin catálogo (index, categorías, contacto): cerrar el overlay al borrar la búsqueda
+  if (inputBusqueda && !hayCatalogoAqui) {
+    inputBusqueda.addEventListener("input", () => {
+      if (inputBusqueda.value.trim() === "") {
+        ocultarResultadoGlobal();
+      }
+    });
   }
+
+  // NOTA: el keydown (Enter) ya se conecta desde el atributo onkeydown en el HTML.
+  // No lo volvemos a conectar aquí para evitar que la búsqueda se dispare dos veces
+  // en paralelo (eso era lo que dejaba el overlay "roto" tras cerrarlo una vez).
 
   const botonLupa = document.getElementById("searchButton");
   if (botonLupa) {
@@ -130,7 +139,7 @@ function mostrarMensajeSinResultados(coincidencias, filtro) {
 
 // ===================================
 // BÚSQUEDA GLOBAL (páginas sin catálogo: index, categorías, contacto)
-// Busca la tarjeta real en los catálogos y la muestra AQUÍ MISMO, sin redirigir.
+// Busca la tarjeta real en los catálogos y la muestra en un overlay de pantalla completa.
 // ===================================
 
 // Recorre las páginas de catálogo, busca una tarjeta cuyo título coincida, y devuelve su HTML
@@ -157,56 +166,68 @@ async function buscarTarjetaEnCatalogos(filtro) {
   return null; // no se encontró en ningún catálogo
 }
 
-// Crea (si no existe) el contenedor donde se muestra el resultado de la búsqueda global
+// Crea (si no existe) el overlay de pantalla completa donde se muestra el resultado global
 function obtenerContenedorResultadoGlobal() {
   let contenedor = document.getElementById("resultadoBusquedaGlobal");
   if (contenedor) return contenedor;
 
   contenedor = document.createElement("div");
   contenedor.id = "resultadoBusquedaGlobal";
-  contenedor.style.cssText = `
-    display: flex;
-    justify-content: center;
-    padding: 40px 20px;
+  contenedor.className = "resultado-busqueda-overlay";
+  contenedor.innerHTML = `
+    <div class="resultado-busqueda-contenido">
+      <button type="button" class="btn-cerrar-resultado" id="btnCerrarResultado" aria-label="Cerrar">&times;</button>
+      <div id="resultadoBusquedaCard"></div>
+    </div>
   `;
 
-  // Lo insertamos justo después del header, antes del contenido de la página
-  const header = document.querySelector(".navbar");
-  if (header) {
-    header.insertAdjacentElement("afterend", contenedor);
-  } else {
-    document.body.prepend(contenedor);
-  }
+  // Se agrega directo al body: es un overlay fijo, no depende de dónde esté en el DOM
+  document.body.appendChild(contenedor);
+
+  contenedor.querySelector("#btnCerrarResultado").addEventListener("click", () => {
+    const input = document.getElementById("searchInput");
+    if (input) input.value = "";
+    ocultarResultadoGlobal();
+  });
 
   return contenedor;
 }
 
-// Muestra la tarjeta encontrada (o un mensaje de "sin resultados") en la página actual
+// Muestra la tarjeta encontrada (o un mensaje de "sin resultados") en el overlay
 function mostrarResultadoBusquedaGlobal(htmlTarjeta, textoBusqueda) {
   const contenedor = obtenerContenedorResultadoGlobal();
+  const tarjetaWrapper = contenedor.querySelector("#resultadoBusquedaCard");
 
   if (htmlTarjeta) {
-    contenedor.innerHTML = `<div style="width: 280px;">${htmlTarjeta}</div>`;
-    const tarjeta = contenedor.querySelector(".producto-card");
+    tarjetaWrapper.innerHTML = htmlTarjeta;
+    const tarjeta = tarjetaWrapper.querySelector(".producto-card");
     if (tarjeta) {
       tarjeta.classList.add("producto-destacado");
     }
   } else {
-    contenedor.innerHTML = `
+    tarjetaWrapper.innerHTML = `
       <p style="color:#cccccc; text-align:center; font-size:1.1rem;">
         No se encontraron instrumentos que coincidan con "${textoBusqueda}".
       </p>
     `;
   }
 
-  contenedor.scrollIntoView({ behavior: "smooth", block: "center" });
+  contenedor.classList.add("activo");
+  document.body.style.overflow = "hidden"; // bloquea el scroll de fondo mientras el overlay está abierto
 }
 
-// Oculta/limpia el resultado de búsqueda global (por ejemplo, al filtrar localmente en un catálogo)
+// Oculta/limpia el overlay de resultado global
 function ocultarResultadoGlobal() {
   const contenedor = document.getElementById("resultadoBusquedaGlobal");
-  if (contenedor) contenedor.innerHTML = "";
+  if (contenedor) {
+    contenedor.classList.remove("activo");
+    document.body.style.overflow = "";
+  }
 }
+
+// Candado para evitar que dos búsquedas globales corran al mismo tiempo
+// (por ejemplo si el usuario presiona Enter varias veces rápido)
+let busquedaEnCurso = false;
 
 // Función para manejar la búsqueda (desde Enter o clic en la lupa)
 async function manejarBusquedaGlobal(event) {
@@ -217,6 +238,8 @@ async function manejarBusquedaGlobal(event) {
 
   const input = document.getElementById("searchInput");
   if (!input || input.value.trim() === "") return;
+
+  if (busquedaEnCurso) return; // ya hay una búsqueda en proceso, ignoramos esta
 
   const textoBusqueda = input.value.trim();
   const filtro = normalizarTexto(textoBusqueda);
@@ -235,7 +258,12 @@ async function manejarBusquedaGlobal(event) {
   }
 
   // CASO 2: No está en esta página (o esta página no tiene catálogo, como index/categorias/contacto)
-  // -> Buscamos la tarjeta real en los catálogos y la mostramos AQUÍ MISMO, sin navegar
-  const htmlTarjeta = await buscarTarjetaEnCatalogos(filtro);
-  mostrarResultadoBusquedaGlobal(htmlTarjeta, textoBusqueda);
+  // -> Buscamos la tarjeta real en los catálogos y la mostramos en el overlay de pantalla completa
+  busquedaEnCurso = true;
+  try {
+    const htmlTarjeta = await buscarTarjetaEnCatalogos(filtro);
+    mostrarResultadoBusquedaGlobal(htmlTarjeta, textoBusqueda);
+  } finally {
+    busquedaEnCurso = false;
+  }
 }

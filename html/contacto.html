@@ -79,18 +79,10 @@
     </div>
   </footer>
 
+  <script src="../js/carrito.js"></script>
+  <script src="../js/buscador.js"></script>
   <script src="../js/main.js"></script>
   <script>
-    function manejarBusquedaGlobal(event) {
-      const esEnter = event.type === 'keydown' && event.key === 'Enter';
-      const esClic = event.type === 'click';
-      if (!esEnter && !esClic) return;
-
-      const termino = document.getElementById('searchInput').value.trim();
-      if (!termino) return;
-
-      window.location.href = 'categorias.html?buscar=' + encodeURIComponent(termino);
-    }
 
     document.getElementById('formContacto').addEventListener('submit', function(e){
       e.preventDefault();
