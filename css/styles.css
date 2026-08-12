@@ -509,12 +509,15 @@ body {
   padding: 0 20px;
 }
 
-/* Modo destacado: centra una sola tarjeta cuando hay coincidencia exacta */
+/* Modo destacado: agrupa y centra las tarjetas cuando hay una búsqueda activa con resultados */
 .catalogo-container.modo-destacado .productos-grid-catalogo {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
-  min-height: 60vh;
+  align-items: flex-start;
+  gap: 70px 100px;
+  padding: 30px;
+  min-height: 50vh;
 }
 
 .producto-card {
@@ -579,6 +582,11 @@ body {
 
 /* Mensaje cuando no hay coincidencias en la búsqueda */
 #sinResultados {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 1.1rem;
   color: #cccccc;
   grid-column: 1 / -1;
 }
@@ -630,6 +638,21 @@ body {
   .search-icon svg {
     width: 14px;
     height: 14px;
+  }
+
+  /* Modo destacado en móvil: espaciado más compacto y simétrico */
+  .catalogo-container.modo-destacado .productos-grid-catalogo {
+    gap: 30px 0;
+    padding: 20px 10px;
+    min-height: auto;
+  }
+
+  /* En móvil no escalamos la tarjeta destacada, para que no se desborde del contenedor */
+  .producto-card.producto-destacado {
+    transform: none;
+    width: 100%;
+    max-width: 260px;
+    margin: 0 auto;
   }
 }
 
@@ -1489,10 +1512,7 @@ body {
 .resultado-busqueda-overlay {
   display: none;
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background-color: rgba(0, 0, 0, 0.92);
   z-index: 999;
   justify-content: center;
@@ -1507,13 +1527,14 @@ body {
 
 .resultado-busqueda-contenido {
   position: relative;
-  width: 280px;
-  max-width: 90%;
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
 }
 
 .btn-cerrar-resultado {
   position: absolute;
-  top: -55px;
+  top: -50px;
   right: 0;
   background: none;
   border: 2px solid #d4a017;
@@ -1522,6 +1543,10 @@ body {
   height: 36px;
   border-radius: 50%;
   font-size: 1.3rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -1531,8 +1556,36 @@ body {
   color: #000000;
 }
 
+.resultado-busqueda-vacio {
+  color: #cccccc;
+  text-align: center;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  padding: 0 10px;
+}
+
+/* Dentro del overlay, la tarjeta destacada no debe cambiar de tamaño con scale
+   (ya está siendo destacada por el overlay en sí), para mantenerla simétrica */
+.resultado-busqueda-contenido .producto-card.producto-destacado {
+  width: 100%;
+  transform: none;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+}
+
 @media screen and (max-width: 768px) {
+  .resultado-busqueda-overlay {
+    padding: 80px 20px 30px;
+    align-items: flex-start;
+  }
+
   .resultado-busqueda-contenido {
-    width: 240px;
+    max-width: 240px;
+  }
+
+  .btn-cerrar-resultado {
+    top: -54px;
+    width: 34px;
+    height: 34px;
+    font-size: 1.15rem;
   }
 }

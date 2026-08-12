@@ -2,28 +2,27 @@
 // BUSCADOR DE PRODUCTOS
 // ===================================
 
-// Páginas de catálogo donde viven las tarjetas .producto-card reales.
+// Nombres de los archivos de catálogo (donde viven las tarjetas .producto-card reales).
 // Ajusta esta lista si agregas o renombras alguna página de categoría.
-const CATALOGOS_DISPONIBLES = ["viento.html", "teclado.html", "electronicos.html"];
+const NOMBRES_CATALOGOS = ["viento.html", "teclado.html", "electronicos.html"];
+
+// Detectamos automáticamente si la página actual vive DENTRO de la carpeta /html/
+// o FUERA de ella (como index.html), para poder construir las rutas correctas
+// sin importar desde dónde se busque.
+const DENTRO_DE_HTML = window.location.pathname.includes("/html/");
+const PREFIJO_CATALOGOS = DENTRO_DE_HTML ? "" : "html/";
+const CATALOGOS_DISPONIBLES = NOMBRES_CATALOGOS.map((archivo) => PREFIJO_CATALOGOS + archivo);
 
 document.addEventListener("DOMContentLoaded", () => {
-  const busquedaGuardada = sessionStorage.getItem("terminoBusqueda");
   const inputBusqueda = document.getElementById("searchInput");
   const hayCatalogoAqui = !!document.querySelector(".producto-card");
-
-  // Si hay una búsqueda pendiente guardada (venimos de otra página con productos), la ejecutamos
-  if (busquedaGuardada && inputBusqueda && hayCatalogoAqui) {
-    inputBusqueda.value = busquedaGuardada;
-    filtrarProductos();
-    sessionStorage.removeItem("terminoBusqueda");
-  }
 
   // Búsqueda en tiempo real mientras el usuario escribe (solo en páginas con catálogo de tarjetas)
   if (inputBusqueda && hayCatalogoAqui) {
     inputBusqueda.addEventListener("input", filtrarProductos);
   }
 
-  // Páginas sin catálogo (index, categorías, contacto): cerrar el overlay al borrar la búsqueda
+  // Páginas sin catálogo (index, categorías, contacto): al borrar la búsqueda, cerramos el overlay
   if (inputBusqueda && !hayCatalogoAqui) {
     inputBusqueda.addEventListener("input", () => {
       if (inputBusqueda.value.trim() === "") {
@@ -32,14 +31,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // NOTA: el keydown (Enter) ya se conecta desde el atributo onkeydown en el HTML.
-  // No lo volvemos a conectar aquí para evitar que la búsqueda se dispare dos veces
-  // en paralelo (eso era lo que dejaba el overlay "roto" tras cerrarlo una vez).
-
-  const botonLupa = document.getElementById("searchButton");
-  if (botonLupa) {
-    botonLupa.addEventListener("click", manejarBusquedaGlobal);
-  }
+  // NOTA: el Enter (keydown) y el clic en la lupa ya están conectados desde los atributos
+  // onkeydown / onclick en el HTML. No los volvemos a conectar aquí para evitar que la
+  // búsqueda se dispare dos veces en paralelo.
 });
 
 // Normaliza texto: minúsculas, sin tildes, sin espacios extra
@@ -50,6 +44,10 @@ function normalizarTexto(texto) {
     .replace(/[\u0300-\u036f]/g, "") // elimina acentos
     .trim();
 }
+
+// ===================================
+// BÚSQUEDA LOCAL (páginas de catálogo: viento, teclado, electronicos)
+// ===================================
 
 // Filtra productos en la página actual en tiempo real (solo aplica en catálogos con tarjetas)
 function filtrarProductos() {
@@ -81,33 +79,23 @@ function filtrarProductos() {
   ocultarResultadoGlobal(); // si estábamos mostrando un resultado global, lo limpiamos al filtrar localmente
 }
 
-// Centra las tarjetas visibles como grupo (sin importar la cantidad: 1, 2, 3, 4, 5...)
+// Centra las tarjetas visibles como grupo (sin importar la cantidad).
+// Usamos clases CSS en vez de estilos inline para que el CSS pueda
+// adaptarlas correctamente en móvil vía media queries.
 function actualizarModoDestacado(coincidencias, filtro) {
-  const grid = document.querySelector(".productos-grid-catalogo");
-  if (!grid) return;
+  const catalogoContainer = document.querySelector(".catalogo-container");
+  if (!catalogoContainer) return;
 
-  if (filtro !== "" && coincidencias > 0) {
-    grid.style.display = "flex";
-    grid.style.flexWrap = "wrap";
-    grid.style.justifyContent = "center";
-    grid.style.alignItems = "flex-start";
-    grid.style.gap = "70px 100px";
-    grid.style.padding = "30px 30px";
+  const hayBusquedaConResultados = filtro !== "" && coincidencias > 0;
+  catalogoContainer.classList.toggle("modo-destacado", hayBusquedaConResultados);
 
-    const tarjetasVisibles = [...document.querySelectorAll(".producto-card")]
-      .filter((t) => t.style.display !== "none");
-
-    if (coincidencias === 1) {
-      tarjetasVisibles[0].classList.add("producto-destacado");
-      tarjetasVisibles[0].scrollIntoView({ behavior: "smooth", block: "center" });
+  if (hayBusquedaConResultados && coincidencias === 1) {
+    const tarjetaVisible = [...document.querySelectorAll(".producto-card")]
+      .find((t) => t.style.display !== "none");
+    if (tarjetaVisible) {
+      tarjetaVisible.classList.add("producto-destacado");
+      tarjetaVisible.scrollIntoView({ behavior: "smooth", block: "center" });
     }
-  } else {
-    grid.style.display = "";
-    grid.style.flexWrap = "";
-    grid.style.justifyContent = "";
-    grid.style.alignItems = "";
-    grid.style.gap = "";
-    grid.style.padding = "";
   }
 }
 
@@ -123,15 +111,7 @@ function mostrarMensajeSinResultados(coincidencias, filtro) {
       contenedor.appendChild(mensaje);
     }
     mensaje.textContent = `No se encontraron instrumentos que coincidan con "${filtro}".`;
-    mensaje.style.cssText = `
-      display: block;
-      width: 100%;
-      text-align: center;
-      padding: 40px 20px;
-      font-size: 1.1rem;
-      color: #cccccc;
-      grid-column: 1 / -1;
-    `;
+    mensaje.style.display = "block";
   } else if (mensaje) {
     mensaje.style.display = "none";
   }
@@ -139,7 +119,7 @@ function mostrarMensajeSinResultados(coincidencias, filtro) {
 
 // ===================================
 // BÚSQUEDA GLOBAL (páginas sin catálogo: index, categorías, contacto)
-// Busca la tarjeta real en los catálogos y la muestra en un overlay de pantalla completa.
+// Busca la tarjeta real en los catálogos y la muestra en un overlay, sin redirigir.
 // ===================================
 
 // Recorre las páginas de catálogo, busca una tarjeta cuyo título coincida, y devuelve su HTML
@@ -166,6 +146,36 @@ async function buscarTarjetaEnCatalogos(filtro) {
   return null; // no se encontró en ningún catálogo
 }
 
+// Las tarjetas de catálogo usan rutas relativas a la carpeta /html/ (ej: "../assets/foto.png",
+// "clarinete-descripcion.html"). Si insertamos esa tarjeta en una página FUERA de /html/
+// (como index.html), esas rutas quedarían rotas. Esta función las corrige según dónde estemos.
+function ajustarRutasTarjeta(htmlTarjeta) {
+  if (DENTRO_DE_HTML) return htmlTarjeta; // ya estamos en /html/, las rutas relativas ya son correctas
+
+  const temporal = document.createElement("div");
+  temporal.innerHTML = htmlTarjeta;
+
+  // Imagen: "../assets/foto.png" -> "assets/foto.png" (ya no hace falta subir de nivel)
+  temporal.querySelectorAll("img").forEach((img) => {
+    const src = img.getAttribute("src") || "";
+    if (src.startsWith("../")) {
+      img.setAttribute("src", src.replace("../", ""));
+    }
+  });
+
+  // Enlace "Ver info": "clarinete-descripcion.html" -> "html/clarinete-descripcion.html"
+  temporal.querySelectorAll("a").forEach((enlace) => {
+    const href = enlace.getAttribute("href") || "";
+    const esRutaAbsoluta = href.startsWith("http") || href.startsWith("/");
+    const yaTienePrefijo = href.startsWith("html/");
+    if (!esRutaAbsoluta && !yaTienePrefijo) {
+      enlace.setAttribute("href", "html/" + href);
+    }
+  });
+
+  return temporal.innerHTML;
+}
+
 // Crea (si no existe) el overlay de pantalla completa donde se muestra el resultado global
 function obtenerContenedorResultadoGlobal() {
   let contenedor = document.getElementById("resultadoBusquedaGlobal");
@@ -181,13 +191,21 @@ function obtenerContenedorResultadoGlobal() {
     </div>
   `;
 
-  // Se agrega directo al body: es un overlay fijo, no depende de dónde esté en el DOM
   document.body.appendChild(contenedor);
 
   contenedor.querySelector("#btnCerrarResultado").addEventListener("click", () => {
     const input = document.getElementById("searchInput");
     if (input) input.value = "";
     ocultarResultadoGlobal();
+  });
+
+  // Cerrar también si se hace clic fuera de la tarjeta (en el fondo oscuro)
+  contenedor.addEventListener("click", (evento) => {
+    if (evento.target === contenedor) {
+      const input = document.getElementById("searchInput");
+      if (input) input.value = "";
+      ocultarResultadoGlobal();
+    }
   });
 
   return contenedor;
@@ -199,14 +217,14 @@ function mostrarResultadoBusquedaGlobal(htmlTarjeta, textoBusqueda) {
   const tarjetaWrapper = contenedor.querySelector("#resultadoBusquedaCard");
 
   if (htmlTarjeta) {
-    tarjetaWrapper.innerHTML = htmlTarjeta;
+    tarjetaWrapper.innerHTML = ajustarRutasTarjeta(htmlTarjeta);
     const tarjeta = tarjetaWrapper.querySelector(".producto-card");
     if (tarjeta) {
       tarjeta.classList.add("producto-destacado");
     }
   } else {
     tarjetaWrapper.innerHTML = `
-      <p style="color:#cccccc; text-align:center; font-size:1.1rem;">
+      <p class="resultado-busqueda-vacio">
         No se encontraron instrumentos que coincidan con "${textoBusqueda}".
       </p>
     `;
@@ -258,7 +276,7 @@ async function manejarBusquedaGlobal(event) {
   }
 
   // CASO 2: No está en esta página (o esta página no tiene catálogo, como index/categorias/contacto)
-  // -> Buscamos la tarjeta real en los catálogos y la mostramos en el overlay de pantalla completa
+  // -> Buscamos la tarjeta real en los catálogos y la mostramos en el overlay, sin navegar
   busquedaEnCurso = true;
   try {
     const htmlTarjeta = await buscarTarjetaEnCatalogos(filtro);
